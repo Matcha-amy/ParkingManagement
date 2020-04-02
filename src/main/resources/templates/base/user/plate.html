@@ -7,7 +7,6 @@
 <!--<![endif]-->
 
 <head>
-    <title>停车场管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sufee Admin - HTML5 Admin Template</title>
@@ -31,8 +30,7 @@
 <body>
 <!-- Left Panel -->
 
-<aside id="navbar" class="left-panel">
-</aside><!-- /#left-panel -->
+<aside id="navbar" class="left-panel"></aside>
 
 <!-- Left Panel -->
 
@@ -42,9 +40,29 @@
 
     <!-- Header-->
     <header id="header" class="header">
-    </header><!-- /header -->
+    </header>
     <!-- Header-->
 
+    <div class="breadcrumbs">
+        <div class="col-sm-4">
+            <div class="page-header float-left">
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="page-header float-right">
+                <div class="page-title">
+                    <ol class="breadcrumb text-right">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><a href="#">Table</a></li>
+                        <li class="active">Data table</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="content mt-3">
         <div class="animated fadeIn">
@@ -53,16 +71,16 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">停车场管理</strong>
+                            <strong class="card-title">Data Table</strong>
                         </div>
                         <div class="card-body">
                             <table id="bootstrap-data-table-export" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>停车场名</th>
-                                    <th>剩余空位</th>
-                                    <th>总空位</th>
-                                    <th>停车记录</th>
+                                    <th>车牌号</th>
+                                    <th>停车次数</th>
+                                    <th>缴费记录</th>
+                                    <th>Salary</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -337,24 +355,6 @@
                                     <td>$98,540</td>
                                 </tr>
                                 <tr>
-                                    <td>Finn Camacho</td>
-                                    <td>Support Engineer</td>
-                                    <td>San Francisco</td>
-                                    <td>$87,500</td>
-                                </tr>
-                                <tr>
-                                    <td>Serge Baldwin</td>
-                                    <td>Data Coordinator</td>
-                                    <td>Singapore</td>
-                                    <td>$138,575</td>
-                                </tr>
-                                <tr>
-                                    <td>Zenaida Frank</td>
-                                    <td>Software Engineer</td>
-                                    <td>New York</td>
-                                    <td>$125,250</td>
-                                </tr>
-                                <tr>
                                     <td>Zorita Serrano</td>
                                     <td>Software Engineer</td>
                                     <td>San Francisco</td>
@@ -448,6 +448,8 @@
     $("#navbar").load("navbar.html");
     $("#header").load("base_right_header.html");
 </script>
+
+
 </body>
 
 </html>
