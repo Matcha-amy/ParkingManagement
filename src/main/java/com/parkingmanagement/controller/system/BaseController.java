@@ -10,12 +10,12 @@ public class BaseController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String toLogin() {
-        return "/base/login.html";
+        return "/base/index.html";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String toRegister() {
-        return "/base/register.html";
+        return "/base/index.html";
     }
 
 //    @RequestMapping(value = "/home",method = RequestMethod.GET)

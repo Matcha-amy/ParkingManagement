@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
-//@Configuration
+@Configuration
 public class ShiroConfig {
 	@Bean
 	public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
@@ -31,7 +31,7 @@ public class ShiroConfig {
 		filterChainDefinitionMap.put("/base/login", "anon");
 		filterChainDefinitionMap.put("/base/register", "anon");
 		filterChainDefinitionMap.put("/login/userLogin", "anon");
-		filterChainDefinitionMap.put("/user/add", "anon");
+		filterChainDefinitionMap.put("/user/register", "anon");
 		filterChainDefinitionMap.put("/static/**", "anon");
 		filterChainDefinitionMap.put("/templates/static/**", "anon");
 		filterChainDefinitionMap.put("/admin/**", "authc");

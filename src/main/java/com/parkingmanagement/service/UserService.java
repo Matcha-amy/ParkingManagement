@@ -2,6 +2,7 @@ package com.parkingmanagement.service;
 
 
 import com.parkingmanagement.entity.system.User;
+import com.parkingmanagement.utils.BaseResult;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface UserService {
     public User getUserByUsername(String username);
     public List<User> getList();
 
-    void save(User user);
+    BaseResult save(User user);
 }
