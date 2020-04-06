@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.RoleDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.system.Role" >
+		<id column="role_id" property="roleId" jdbcType="BIGINT" />
+		<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		<result column="role_code" property="roleCode" jdbcType="VARCHAR" />
+		<collection property="permissions" ofType="com.parkingmanagement.entity.system.Permissions">
+			<result column="permissions_id" property="permissionsId"/>
+			<result column="permissions_name" property="permissionsName"/>
+			<result column="permissions_code" property="permissionsCode"/>
+		</collection>
+	</resultMap>
+
+	<sql id="base_select">
+		r.role_id,r.role_name,r.role_code,p.permissions_id,p.permissions_name,p.permissions_code
+	</sql>
+
+	<select id="getRole" resultMap="BaseResultMap" parameterType="Integer">
+		select 	<include refid="base_select"/>
+		FROM role r
+		LEFT JOIN role_permissions rp ON r.`role_id` = rp.`role_id`
+		LEFT JOIN permissions p ON p.`permissions_id` = rp.`permissions_id`
+		where r.role_id = #{roleId}
+	</select>
+
+	<insert id="save" parameterType="com.parkingmanagement.entity.system.Role">
+		insert into role(role_name,role_code) values (#{roleName},#{roleCode})
+	</insert>
+
+
+
+</mapper>
+ 
+

@@ -118,7 +118,7 @@
 										</div>
 
 										<div class="tab-content-inner" data-content="login">
-											<form action="#">
+											<form>
 												<div class="row form-group">
 													<div class="col-md-12">
 														<label for="login_username">用户名</label>
@@ -131,10 +131,10 @@
 														<input type="password" class="form-control" id="login_password">
 													</div>
 												</div>
-
+												<div id="loginMsgDiv"></div>
 												<div class="row form-group">
 													<div class="col-md-12">
-														<input type="submit" class="btn btn-primary" value="登录">
+														<input  class="btn btn-primary" value="登录" onclick="login()">
 													</div>
 												</div>
 											</form>	
@@ -234,6 +234,30 @@
 	<script src="../static/login/js/main.js"></script>
 	
 	<script>
+		//登录 
+		function login() {
+            $("#loginMsgDiv").html("");
+            var username =  $("#login_username").val();
+            var password =  $("#login_password").val();
+            if (isEmpty(username)|| isEmpty(password)){
+                $("#loginMsgDiv").html("请输入账号或密码");
+            } else {
+                $.post("/login/userLogin",{username:username,password:password},function (data) {
+                    if(data.status){
+                        if(data.code==999){
+                            window.location.href="http://127.0.0.1:8080/admin/index?username="+username;
+                        }else {
+                            window.location.href="http://127.0.0.1:8080/user/index?username="+username;
+
+						}
+                     }else {
+                         $("#loginMsgDiv").html(data.msg);
+                     }
+                },"json")
+			}
+        }
+		
+		
         //注册
         function register() {
             $("#registerMsgDiv").html("");
@@ -242,7 +266,20 @@
             if(registerCheck(pwd,pwd2)){
                 var username =  $("#register_username").val();
                $.post("/user/register",{username:username,password:pwd},function (data) {
-                     $("#registerMsgDiv").html(data.msg);
+                   if(data.status){
+						//注册成功 自动登录
+					   alert("注册成功！");
+					   //登录
+					   $.post("/login/userLogin",{username:username,password:pwd},function (data) {
+                           if(data.code==999){
+                               window.location.href="http://127.0.0.1:8080/admin/index?username="+username;
+                           }else {
+                               window.location.href="http://127.0.0.1:8080/user/index?username="+username;
+
+                           }
+                       },"json")
+				   }
+				   $("#registerMsgDiv").html(data.msg);
                },"json");
            }
 

@@ -20,7 +20,7 @@ public class User implements Serializable {
     /**
      * 用户对应的角色集合
      */
-    private Set<Role> roles;
+    private Integer roleId;
 
     /**
      * 密码盐.

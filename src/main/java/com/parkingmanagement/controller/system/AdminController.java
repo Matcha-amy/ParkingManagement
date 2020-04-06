@@ -10,8 +10,8 @@ public class AdminController {
 
 
     @RequiresRoles("admin")
-    @RequestMapping("/home")
+    @RequestMapping("/index")
     public String toHome(){
-        return "/admin/home.html";
+        return "/base/admin/userCon.html";
     }
 }

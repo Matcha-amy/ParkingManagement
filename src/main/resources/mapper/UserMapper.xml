@@ -6,23 +6,25 @@
 		<id column="user_id" property="userId" jdbcType="BIGINT" />
 		<result column="username" property="username" jdbcType="VARCHAR" />
 		<result column="password" property="password" jdbcType="VARCHAR" />
-		<collection property="roles" ofType="com.parkingmanagement.entity.system.Role">
-			<!-- 定义这个集合中元素的封装规则 -->
-			<id column="role_id" property="roleId" />
-			<result column="role_name" property="roleName" jdbcType="VARCHAR"/>
-			<result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
-			<collection property="permissions" ofType="com.parkingmanagement.entity.system.Permissions">
-			<id column="permissions_id" property="permissionsId"/>
-			<result column="permissions_name" property="permissionsName" jdbcType="VARCHAR"/>
-			<result column="permissions_code" property="permissionsCode" jdbcType="VARCHAR"/>
-			</collection>
-		</collection>
+		<result column="role_id" property="roleId"  />
 	</resultMap>
 
 	<sql id="base_select">
-		u.user_id,u.username,u.password,r.role_id,r.role_name,r.role_code,p.permissions_id,p.permissions_code,p.permissions_name
+		user_id,username,password,role_id
 	</sql>
 
+	<select id="query" parameterType="Map" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		from user
+		<where>
+			<trim suffixOverrides="and">
+				<if test="username != null and username != ''">
+					username = #{username} and
+				</if>
+			</trim>
+		</where>
+	</select>
+	
 	<select id="getUser" resultMap="BaseResultMap" parameterType="Map">
 		select 	<include refid="base_select"/>
 		FROM USER u
