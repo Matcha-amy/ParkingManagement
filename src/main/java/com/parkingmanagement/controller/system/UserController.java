@@ -20,6 +20,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+
+
     @RequiresRoles({"user"})
     @RequestMapping(value = "/index")
     public String toIndex(HttpServletRequest request, String username){

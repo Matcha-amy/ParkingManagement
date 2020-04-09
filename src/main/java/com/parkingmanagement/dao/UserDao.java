@@ -20,4 +20,6 @@ public interface UserDao {
     List<User> query(Map<String,Object> queryMap);
 
     void save(User user);
+
+    Integer update(User user);
 }

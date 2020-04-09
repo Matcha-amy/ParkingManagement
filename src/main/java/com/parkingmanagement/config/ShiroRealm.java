@@ -38,8 +38,11 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        User user  = (User)principals.getPrimaryPrincipal();
-        Role role = roleService.getRole(user.getRoleId());
+        String username = (String)principals.getPrimaryPrincipal();
+        HashMap<String,Object> queryMap = new HashMap<>();
+        queryMap.put("username",username);
+        List<User> userList = userDao.query(queryMap);
+        Role role = roleService.getRole(userList.get(0).getRoleId());
         authorizationInfo.addRole(role.getRoleCode());
         for(Permissions p:role.getPermissions()){
             authorizationInfo.addStringPermission(p.getPermissionsCode());
