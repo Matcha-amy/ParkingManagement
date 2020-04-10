@@ -1,6 +1,7 @@
 package com.parkingmanagement.controller.system;
 
 import com.alibaba.fastjson.JSONObject;
+import com.parkingmanagement.entity.OrderCarport;
 import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.service.UserService;
 import com.parkingmanagement.utils.BaseResult;
@@ -40,6 +41,20 @@ public class UserController {
         }catch (Exception e){
             e.printStackTrace();
             result.setMsg("注册失败，请重新注册");
+        }
+        return JSONObject.toJSONString(result);
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/order",method = RequestMethod.POST)
+    public String orderCarport(OrderCarport orderCarport){
+        BaseResult result = new BaseResult();
+        try {
+            result = userService.orderCarport(orderCarport);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMsg("预约失败，请重新预约");
         }
         return JSONObject.toJSONString(result);
     }

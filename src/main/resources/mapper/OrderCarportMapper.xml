@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.OrderCarportDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.OrderCarport" >
+		<id column="orderCarport_id" property="orderCarportId" />
+		<result column="orderCarport_user_id" property="userId"  />
+		<result column="orderCarport_carport_id" property="carportId"  />
+		<result column="orderCarport_time" property="orderTime"  />
+		<result column="orderCarport_status" property="orderStatus"  />
+	</resultMap>
+
+	<sql id="base_select">
+		orderCarport_id,orderCarport_carport_id,orderCarport_carport_id,orderCarport_time,orderCarport_status
+	</sql>
+
+	<select id="selectOrdering" resultMap="BaseResultMap" parameterType="Integer">
+		select 	<include refid="base_select"/>
+		FROM orderCarport
+		where orderCarport_user_id = #{userId}
+		and orderCarport_status = 0
+	</select>
+
+
+	<select id="breakOrder" parameterType="Integer" resultType="Integer">
+		SELECT count(1)
+		FROM ordercarport
+		WHERE TIMESTAMPDIFF(MONTH,now(),FROM_UNIXTIME((orderCarport_time/1000), '%Y-%m-%d %H:%i:%s')) = 0
+		and orderCarport_status = 3
+		and orderCarport_user_id = #{userId}
+	</select>
+
+	<insert id="save" parameterType="com.parkingmanagement.entity.OrderCarport">
+		insert into orderCarport(orderCarport_user_id,orderCarport_carport_id,orderCarport_time,orderCarport_status)
+		values (#{orderCarport_user_id},#{orderCarport_carport_id},#{orderCarport_time},#{orderCarport_status})
+	</insert>
+
+
+
+</mapper>
+ 
+

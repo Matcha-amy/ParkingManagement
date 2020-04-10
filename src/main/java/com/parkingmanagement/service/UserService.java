@@ -1,6 +1,7 @@
 package com.parkingmanagement.service;
 
 
+import com.parkingmanagement.entity.OrderCarport;
 import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.utils.BaseResult;
 import com.parkingmanagement.utils.PageList;
@@ -19,4 +20,5 @@ public interface UserService {
 
     BaseResult updateUser(User user);
 
+    BaseResult orderCarport(OrderCarport user);
 }

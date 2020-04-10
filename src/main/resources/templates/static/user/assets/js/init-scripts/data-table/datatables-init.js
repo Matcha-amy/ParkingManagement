@@ -6,39 +6,38 @@
     -------------*/
 
     $('#bootstrap-data-table').DataTable({
-        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]]
     });
 
     $('#bootstrap-data-table-export').DataTable({
         lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         dataType: "json",
-        ajax: {
-        	url:"/admin/userList",
-			data:{
-                page:1,
-				limit:10
-			},
-			dataSrc:function (data) {
-				return data.rows;
-            }
-		},
+        // ajax: {
+        //     url: "/admin/userList",
+        //     data: {
+        //         page: 1,
+        //         limit: 10
+        //     },
+        //     dataSrc: function (data) {
+        //         return data.rows;
+        //     }
+        // },
         columns: [
             {
-                'data' : 'username',
-                sortable : true
-			},
-			{
-                'data' : 'password',
-                sortable : true
+                'data': 'username',
+                sortable: true
             },
-			{
-                'data' : 'userId',
-                sortable : true
+            {
+                'data': 'password',
+                sortable: true
+            },
+            {
+                'data': 'userId',
+                sortable: true
 
-            },   {
-                'data' : 'salt'
-                // sortable : true
+            }, {
+                'data': 'salt'
             }
 
         ]

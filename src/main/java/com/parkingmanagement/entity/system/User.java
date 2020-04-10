@@ -6,6 +6,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -31,8 +32,6 @@ public class User implements Serializable {
     }
 
     public static void main(String[] args) {
-        User u = new User();
-        u.setUsername("aaa");
-        System.out.println(u);
+        System.out.println(new Date().getTime());
     }
 }
