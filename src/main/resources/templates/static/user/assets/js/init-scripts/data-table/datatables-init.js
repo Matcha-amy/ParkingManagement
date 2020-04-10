@@ -53,7 +53,6 @@
 							var val = $.fn.dataTable.util.escapeRegex(
 								$(this).val()
 							);
-
 							column
 								.search( val ? '^'+val+'$' : '', true, false )
 								.draw();

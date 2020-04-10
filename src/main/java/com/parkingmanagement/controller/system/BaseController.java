@@ -22,4 +22,9 @@ public class BaseController {
 //    public String toRegister(){
 //        return "/base/home.html";
 //    }
+
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    public String toError() {
+        return "/base/error.html";
+    }
 }
