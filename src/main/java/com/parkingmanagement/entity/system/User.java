@@ -23,6 +23,8 @@ public class User implements Serializable {
      */
     private Integer roleId;
 
+    private Integer status;  //0为使用中  1为禁用
+
     /**
      * 密码盐.
      * @return
@@ -30,6 +32,7 @@ public class User implements Serializable {
     public String getCredentialsSalt(){
         return this.username+this.salt;
     }
+
 
     public static void main(String[] args) {
         System.out.println(new Date().getTime());

@@ -30,22 +30,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private OrderCarportDao orderCarportDao;
 
-
-    @Override
-    public User getUser(String username, String password) {
-        return userDao.getUser(username,password);
-    }
-
-    @Override
-    public User getUserByUsername(String username) {
-        return userDao. getUserByUsername( username);
-    }
-
-    @Override
-    public List<User> getList() {
-        return userDao.getList();
-    }
-
     @Override
     public List<User> query(HashMap<String, Object> queryMap) {
         return userDao.query(queryMap);
@@ -115,5 +99,20 @@ public class UserServiceImpl implements UserService {
         //开启延迟任务
 
         return result.setStatus(true).setMsg("预约成功");
+    }
+
+    @Override
+    public BaseResult delUser(User user) {
+        BaseResult result = new BaseResult();
+        if (user == null && user.getUserId() == null){
+            return result.setMsg("选择禁用的用户不存在，请重新选择");
+        }
+        User dbUser = userDao.getUserById(user.getUserId());
+        if (dbUser==null){
+            return result.setMsg("选择禁用的用户不存在，请重新选择");
+        }
+        dbUser.setStatus(1);
+        userDao.update(dbUser);
+        return result.setStatus(true).setMsg("禁用用户成功");
     }
 }

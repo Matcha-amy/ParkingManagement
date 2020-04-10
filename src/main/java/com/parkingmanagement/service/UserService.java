@@ -10,10 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface UserService {
-    public User getUser(String username, String password);
-    public User getUserByUsername(String username);
-    public List<User> getList();
     List<User> query(HashMap<String,Object> queryMap);
+
     BaseResult register(User user);
 
     PageList getPageList(Integer pageNum, Integer pageSize,HashMap<String,Object> queryMap);
@@ -21,4 +19,6 @@ public interface UserService {
     BaseResult updateUser(User user);
 
     BaseResult orderCarport(OrderCarport user);
+
+    BaseResult delUser(User user);
 }
