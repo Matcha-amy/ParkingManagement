@@ -8,6 +8,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ParkingController {
     //增加
     @RequiresRoles({"admin"})
     @ResponseBody
-    @RequestMapping(value = "/addParking")
+    @RequestMapping(value = "/addParking",method = RequestMethod.POST)
     public BaseResult addParking(Parking parking){
         BaseResult result = new BaseResult();
         try{
@@ -60,7 +61,7 @@ public class ParkingController {
     //修改
     @RequiresRoles({"admin"})
     @ResponseBody
-    @RequestMapping(value = "/updateParking")
+    @RequestMapping(value = "/updateParking",method = RequestMethod.POST)
     public BaseResult updateParking(Parking parking) {
         BaseResult result = new BaseResult();
         try {
@@ -75,7 +76,7 @@ public class ParkingController {
     //删除
     @RequiresRoles({"admin"})
     @ResponseBody
-    @RequestMapping(value = "/delParking")
+    @RequestMapping(value = "/delParking",method = RequestMethod.POST)
     public BaseResult delParking(Parking parking) {
         BaseResult result = new BaseResult();
         try {
