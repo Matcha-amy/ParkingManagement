@@ -14,8 +14,8 @@ public class Parking {
 
     private Integer parkingId;//
     private String parkingName;//
-    private Integer parkingStatus =0;//0 零为使用中  1为禁用  2为满员
+    private Integer parkingStatus = 0;//0 零为使用中  1为禁用  2为满员
     private Integer parkingCarportSize;// 停车场最大容量
-    private Integer parkingCarportUsed;// 停车场使用车位数量
+    private Integer parkingCarportUsed = 0;// 停车场使用车位数量
 
 }

@@ -71,6 +71,7 @@ public class PlateController {
     public BaseResult delPlate(Plate plate){
         BaseResult baseResult = new BaseResult();
         try{
+            plate.setPlateStatus(1);
             baseResult = pleateService.updatePlate(plate);
         }catch (Exception e){
             e.printStackTrace();
