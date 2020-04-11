@@ -25,6 +25,8 @@ public class User implements Serializable {
 
     private Integer status;  //0为使用中  1为禁用
 
+    private Double balance;
+
     /**
      * 密码盐.
      * @return

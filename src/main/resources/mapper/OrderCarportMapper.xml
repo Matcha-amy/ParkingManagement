@@ -4,10 +4,10 @@
 <mapper namespace="com.parkingmanagement.dao.OrderCarportDao">
 	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.OrderCarport" >
 		<id column="orderCarport_id" property="orderCarportId" />
-		<result column="orderCarport_user_id" property="userId"  />
-		<result column="orderCarport_carport_id" property="carportId"  />
-		<result column="orderCarport_time" property="orderTime"  />
-		<result column="orderCarport_status" property="orderStatus"  />
+		<result column="orderCarport_user_id" property="orderCarportUserId"  />
+		<result column="orderCarport_carport_id" property="orderCarportCarportId"  />
+		<result column="orderCarport_time" property="orderCarportTime"  />
+		<result column="orderCarport_status" property="orderCarportStatus"  />
 	</resultMap>
 
 	<sql id="base_select">
@@ -17,7 +17,7 @@
 	<select id="selectOrdering" resultMap="BaseResultMap" parameterType="Integer">
 		select 	<include refid="base_select"/>
 		FROM orderCarport
-		where orderCarport_user_id = #{userId}
+		where orderCarport_user_id = #{orderCarportUserId}
 		and orderCarport_status = 0
 	</select>
 
@@ -26,15 +26,39 @@
 		SELECT count(1)
 		FROM ordercarport
 		WHERE TIMESTAMPDIFF(MONTH,now(),FROM_UNIXTIME((orderCarport_time/1000), '%Y-%m-%d %H:%i:%s')) = 0
-		and orderCarport_status = 3
-		and orderCarport_user_id = #{userId}
+		and orderCarport_status = 2
+		and orderCarport_user_id = #{orderCarportUserId}
 	</select>
 
-	<insert id="save" parameterType="com.parkingmanagement.entity.OrderCarport">
+	<insert id="save" parameterType="com.parkingmanagement.entity.OrderCarport"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
 		insert into orderCarport(orderCarport_user_id,orderCarport_carport_id,orderCarport_time,orderCarport_status)
-		values (#{orderCarport_user_id},#{orderCarport_carport_id},#{orderCarport_time},#{orderCarport_status})
+		values (#{orderCarportUserId},#{orderCarportCarportId},#{orderCarportTime},#{orderCarportStatus})
 	</insert>
 
+	<select id="findByTime" parameterType="Long" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM orderCarport
+		where  orderCarport_time = #{orderCarportTime}
+	</select>
+
+	<update id="update" parameterType="com.parkingmanagement.entity.OrderCarport" >
+		update orderCarport set
+	  	<trim suffixOverrides=",">
+			<if test="orderCarportUserId != null and orderCarportUserId != ''">
+				orderCarport_user_id = #{orderCarportUserId},
+			</if>
+			<if test="orderCarportCarportId != null and orderCarportCarportId != ''">
+				orderCarport_carport_id = #{orderCarportCarportId},
+			</if>
+			<if test="orderCarportTime != null and orderCarportTime != ''">
+				orderCarport_time = #{orderCarportTime},
+			</if>
+			<if test="orderCarportStatus != null and orderCarportStatus != ''">
+				orderCarport_status = #{orderCarportStatus},
+			</if>
+		</trim>
+		where orderCarport_id = #{orderCarportId}
+	</update>
 
 
 </mapper>

@@ -88,5 +88,14 @@ public class UserController {
         return result;
     }
 
+    //去车牌管理页面
+    @RequiresRoles({"user"})
+    @ResponseBody
+    @RequestMapping(value = "/toPlate",method = RequestMethod.GET)
+    public String toPlate(){
+        return "/base/user/plate.html";
+    }
+
+
 
 }

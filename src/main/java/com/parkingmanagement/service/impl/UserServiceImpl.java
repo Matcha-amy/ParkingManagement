@@ -2,6 +2,7 @@ package com.parkingmanagement.service.impl;
 
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.parkingmanagement.dao.OrderCarportDao;
@@ -9,10 +10,7 @@ import com.parkingmanagement.dao.UserDao;
 import com.parkingmanagement.entity.OrderCarport;
 import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.service.UserService;
-import com.parkingmanagement.utils.BaseResult;
-import com.parkingmanagement.utils.Constant;
-import com.parkingmanagement.utils.MD5Utils;
-import com.parkingmanagement.utils.PageList;
+import com.parkingmanagement.utils.*;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private OrderCarportDao orderCarportDao;
+
+    @Autowired
+    private DelayQueueManager delayQueueManager;
 
     @Override
     public List<User> query(HashMap<String, Object> queryMap) {
@@ -83,21 +84,23 @@ public class UserServiceImpl implements UserService {
     public BaseResult orderCarport(OrderCarport orderCarport) {
         BaseResult result = new BaseResult();
         //先要判断 用户是否已在预约车位中
-        OrderCarport dbOrderCarport = orderCarportDao.selectOrdering(orderCarport.getUserId());
+        OrderCarport dbOrderCarport = orderCarportDao.selectOrdering(orderCarport.getOrderCarportUserId());
         if (dbOrderCarport != null) {
             return result.setMsg("已有预约车位，无法再次预约");
         }
         //在判断 用户这个月内的违约次数是否超过三次
-        Integer breakCount = orderCarportDao.breakOrder(orderCarport.getUserId());
+        Integer breakCount = orderCarportDao.breakOrder(orderCarport.getOrderCarportUserId());
         if (breakCount > Constant.BRESK_ORDER_MAX) {
             return result.setMsg("本月违约次数过多，无法再次预约");
         }
         //预约   生成预约记录
         long time = new Date().getTime();
-        orderCarport.setOrderTime(new Integer(("" + time)));
+        orderCarport.setOrderCarportTime(time);
         orderCarportDao.save(orderCarport);
         //开启延迟任务
-
+        TaskBase taskBase = new TaskBase(JSONObject.toJSONString(orderCarport));
+        DelayTask delayTask = new DelayTask(taskBase,5000);//这个时间可以自定义  是以毫秒为单位
+        delayQueueManager.put(delayTask);
         return result.setStatus(true).setMsg("预约成功");
     }
 

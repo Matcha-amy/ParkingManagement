@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.PlateDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.Plate" >
+		<id column="plate_id" property="plateId" />
+		<result column="user_id" property="userId"  />
+		<result column="plate_code" property="plateCode"  />
+		<result column="plate_status" property="plateStatus"  />
+	</resultMap>
+
+	<sql id="base_select">
+		plate_id,user_id,plate_code,plate_status
+	</sql>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="Integer">
+		select <include refid="base_select"/>
+		from plate
+		where user_id = #{userId}
+		and plate_status = 0
+	</select>
+
+
+
+	<insert id="save" parameterType="com.parkingmanagement.entity.Plate"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
+		insert into plate(user_id,plate_code,plate_status)
+		values (#{userId},#{plateCode},#{plateStatus})
+	</insert>
+
+	<select id="getById" parameterType="Integer" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM plate
+		where  plate_id = #{plateId}
+		and plate_status = 0
+	</select>
+
+	<update id="updatePlate" parameterType="com.parkingmanagement.entity.Plate" >
+		update plate set
+	  	<trim suffixOverrides=",">
+			<if test="plateCode != null and plateCode != ''">
+				plate_code = #{plateCode},
+			</if>
+			<if test="plateStatus != null and plateStatus != ''">
+				plate_status = #{plateStatus},
+			</if>
+		</trim>
+		where plate_id = #{plateId}
+	</update>
+
+
+</mapper>
+ 
+

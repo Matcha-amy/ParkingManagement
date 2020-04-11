@@ -8,10 +8,11 @@
 		<result column="password" property="password" jdbcType="VARCHAR" />
 		<result column="role_id" property="roleId"  />
 		<result column="status" property="status"  />
+		<result column="balance" property="balance"  />
 	</resultMap>
 
 	<sql id="base_select">
-		user_id,username,password,role_id , status
+		user_id,username,password,role_id , status , balance
 	</sql>
 
 	<select id="query" parameterType="Map" resultMap="BaseResultMap">
@@ -38,6 +39,13 @@
 		and status = 0
 	</select>
 
+	<select id="getUserByUsername" parameterType="String" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		from user
+		where  username = #{username}
+		and status = 0
+	</select>
+
 	<update id="update" parameterType="com.parkingmanagement.entity.system.User" >
 		update user  set
 		<trim suffixOverrides=",">
@@ -51,7 +59,10 @@
 				role_id = #{roleId},
 			</if>
 			<if test="status != null and  status !='' ">
-				status = #{status}
+				status = #{status},
+			</if>
+			<if test="balance!=null and balance!= ''">
+				balance = #{balance},
 			</if>
 		</trim>
 		where user_id = #{userId}

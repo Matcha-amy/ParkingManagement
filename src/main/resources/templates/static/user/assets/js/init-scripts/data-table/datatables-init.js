@@ -5,24 +5,44 @@
     /*  Data Table
     -------------*/
 
-    $('#bootstrap-data-table').DataTable({
-        lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]]
-    });
+    // $('#bootstrap-data-table').DataTable({
+    //     lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]]
+    // });
 
     $('#bootstrap-data-table-export').DataTable({
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        lengthMenu: [10, 25, 50, "All"],
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         dataType: "json",
-        // ajax: {
-        //     url: "/admin/userList",
-        //     data: {
-        //         page: 1,
-        //         limit: 10
-        //     },
-        //     dataSrc: function (data) {
-        //         return data.rows;
-        //     }
-        // },
+        oPaginate: {
+            sFirst: "首页",
+            sLast: "末页",
+            sNext: "下页",
+            sPrevious: "上页"
+        },
+        oLanguage:{
+            sInfo: "第 _START_ 到 _END_ 条记录，共 _TOTAL_ 条",
+            sInfoEmpty: "第 0 到 0 条记录，共 0 条",
+            sLoadingRecords: "正在载入...",
+            sProcessing: "正在载入...",
+            sSearch: "搜索:",
+            sZeroRecords: "没有相关记录",
+            oPaginate: {
+                sFirst: "首页",
+                sLast: "末页",
+                sNext: "下页",
+                sPrevious: "上页"
+            }
+        },
+        ajax: {
+            url: "/admin/userList",
+            data: {
+                page: 1,
+                limit: 10
+            },
+            dataSrc: function (data) {
+                return data.rows;
+            }
+        },
         columns: [
             {
                 'data': 'username',
@@ -39,7 +59,6 @@
             }, {
                 'data': 'salt'
             }
-
         ]
     });
 

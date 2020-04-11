@@ -17,12 +17,12 @@ public class OrderCarport implements Serializable {
 
     private Integer orderCarportId;
 
-    private Integer userId;
+    private Integer orderCarportUserId;
 
-    private Integer carportId;
+    private Integer orderCarportCarportId;
 
-    private Integer orderTime;
+    private Long orderCarportTime;
 
-    private Integer orderStatus = 0;  // 0为 预约中   1为预约正常结束  2为预约超时
+    private Integer orderCarportStatus = 0;  // 0为 预约中   1为预约正常结束  2为预约超时
 
 }

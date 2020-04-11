@@ -10,4 +10,8 @@ public interface OrderCarportDao {
     Integer breakOrder(Integer userId);
 
     Integer save(OrderCarport orderCarport);
+
+    OrderCarport findByTime(Long orderCarportTime);
+
+    void update(OrderCarport dbOrderCarport);
 }
