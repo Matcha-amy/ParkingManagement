@@ -56,7 +56,7 @@
 		and parking_status = 0
 	</select>
 
-	<update id="updateParking" parameterType="com.parkingmanagement.entity.Carport" >
+	<update id="updateCarport" parameterType="com.parkingmanagement.entity.Carport" >
 		update carport set
 	  	<trim suffixOverrides=",">
 			<if test="carportNum != null and carportNum != ''">
