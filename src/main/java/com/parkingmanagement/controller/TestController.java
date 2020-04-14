@@ -17,9 +17,9 @@ public class TestController {
 
     @RequestMapping("/toTest")
     public String toTest(ModelAndView modelAndView){
-        List<User> list = userService.getList();
-        System.out.println(list);
-        modelAndView.addObject("userlist",list);
+//        List<User> list = userService.getList();
+//        System.out.println(list);
+//        modelAndView.addObject("userlist",list);
         return "test";
     }
 }

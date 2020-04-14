@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.ParkingDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.Parking" >
+		<id column="parking_id" property="parkingId" />
+		<result column="parking_name" property="parkingName"  />
+		<result column="parking_status" property="parkingStatus"  />
+		<result column="parking_carport_size" property="parkingCarportSize"  />
+		<result column="parking_carport_used" property="parkingCarportUsed"  />
+		<result column="parking_price" property="parkingPrice"  />
+	</resultMap>
+
+	<sql id="base_select">
+		parking_id,parking_name,parking_status,parking_carport_size,parking_carport_used,parkingPrice
+	</sql>
+
+	<select id="getList" resultMap="BaseResultMap">
+		select <include refid="base_select"/>
+		from parking
+		where parking_status = 0
+	</select>
+
+
+
+	<insert id="save" parameterType="com.parkingmanagement.entity.Parking"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
+		insert into parking(parking_name,parking_status,parking_carport_size,parking_carport_used,parking_price)
+		values (#{parkingName},#{parkingStatus},#{parkingCarportSize},#{parkingCarportUsed},#{parkingPrice})
+	</insert>
+
+	<select id="getById" parameterType="Integer" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM parking
+		where  parking_id = #{parkingId}
+		and parking_status = 0
+	</select>
+
+
+	<select id="getByName" parameterType="String" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM parking
+		where  parking_name = #{parkingName}
+		and parking_status = 0
+	</select>
+
+	<update id="updateParking" parameterType="com.parkingmanagement.entity.Parking" >
+		update parking set
+	  	<trim suffixOverrides=",">
+			<if test="parkingName != null and parkingName != ''">
+				parking_name = #{parkingName},
+			</if>
+			<if test="parkingStatus != null and parkingStatus != ''">
+				parking_status = #{parkingStatus},
+			</if>
+			<if test="parkingCarportSize != null and parkingCarportSize != ''">
+				parking_carport_size = #{parkingCarportSize},
+			</if>
+			<if test="parkingCarportUsed != null and parkingCarportUsed != ''">
+				parking_carport_used = #{parkingCarportUsed},
+			</if>
+			<if test="parkingPrice != null and parkingPrice != ''">
+				parking_price = #{parkingPrice},
+			</if>
+		</trim>
+		where parking_id = #{parkingId}
+	</update>
+
+
+</mapper>
+ 
+

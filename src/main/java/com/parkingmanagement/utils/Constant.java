@@ -8,4 +8,12 @@ public class Constant {
     //预约车位 每个月违约最大数
     public static final Integer BRESK_ORDER_MAX = 3;
 
+    //预约车位状态
+    //预约中
+    public static final Integer ORDER_STATUS_ING=0;
+    //已执行预约
+    public static final Integer ORDER_STATUS_SUCCESS=1;
+    //违约
+    public static final Integer ORDER_STATUS_FAILED=2;
+
 }

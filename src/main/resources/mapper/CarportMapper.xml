@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.CarportDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.Carport" >
+		<id column="carport_id" property="carportId" />
+		<result column="carport_num" property="carportNum"  />
+		<result column="carport_status" property="carportStatus"  />
+		<result column="carport_pos" property="carportPos"  />
+		<result column="parking_id" property="parkingId"  />
+	</resultMap>
+
+	<sql id="base_select">
+		carport_id,carport_num,carport_status,carport_pos,parking_id
+	</sql>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="Map">
+		select <include refid="base_select"/>
+		from carport
+		<where>
+			<trim suffixOverrides="and">
+				<if test="carportNum != null and carportNum != ''">
+					carport_num = #{carportNum} and
+				</if>
+				<if test="carportStatus != null and carportStatus != ''">
+					carport_status = #{carportStatus} and
+				</if>
+				<if test="carportPos != null and carportPos != ''">
+					carport_pos = #{carportPos} and
+				</if>
+				<if test="parkingId != null and parkingId != ''">
+					parking_id = #{parkingId} and
+				</if>
+			</trim>
+		</where>
+	</select>
+
+
+
+	<insert id="save" parameterType="com.parkingmanagement.entity.Carport"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
+		insert into carport(carport_num,carport_status,carport_pos,parking_id)
+		values (#{carportNum},#{carportStatus},#{carportPos},#{parkingId})
+	</insert>
+
+	<select id="getById" parameterType="Integer" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM carport
+		where  carport_id = #{carportId}
+	</select>
+
+
+	<select id="getByName" parameterType="String" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM parking
+		where  parking_name = #{parkingName}
+		and parking_status = 0
+	</select>
+
+	<update id="updateCarport" parameterType="com.parkingmanagement.entity.Carport" >
+		update carport set
+	  	<trim suffixOverrides=",">
+			<if test="carportNum != null and carportNum != ''">
+				carport_num = #{carportNum},
+			</if>
+			<if test="carportStatus != null and carportStatus != ''">
+				carport_status = #{carportStatus},
+			</if>
+			<if test="carportPos != null and carportPos != ''">
+				carport_pos = #{carportPos},
+			</if>
+			<if test="parkingId != null and parkingId != ''">
+				parking_id = #{parkingId},
+			</if>
+		</trim>
+		where carport_id = #{carportId}
+	</update>
+
+
+</mapper>
+ 
+

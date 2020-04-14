@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.ParkingLogDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.ParkingLog" >
+		<id column="parking_log_id" property="parkingLogId" />
+		<result column="parking_log_parking_id" property="parkingLogParkingId"  />
+		<result column="parking_log_plate_id" property="parkingLogPlateId"  />
+		<result column="parking_log_user_id" property="parkingLogUserId"  />
+		<result column="parking_log_start_time" property="parkingLogStartTime"  />
+		<result column="parking_log_end_time" property="parkingLogEndTime"  />
+		<result column="parking_log_payment" property="parkingLogPayment"  />
+	</resultMap>
+
+	<sql id="base_select">
+		parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time,parking_log_end_time,parking_log_payment
+	</sql>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="Map">
+		select <include refid="base_select"/>
+		from parking_log
+		<where>
+			<trim suffixOverrides="and">
+				<if test="parkingLogParkingId != null and parkingLogParkingId != ''">
+					parking_log_parking_id = #{parkingLogParkingId} and
+				</if>
+				<if test="parkingLogPlateId != null and parkingLogPlateId != ''">
+					parking_log_plate_id = #{parkingLogPlateId} and
+				</if>
+				<if test="parkingLogUserId != null and parkingLogUserId != ''">
+					parking_log_user_id = #{parkingLogUserId} and
+				</if>
+				<if test="parkingLogPayment != null and parkingLogPayment != ''">
+					parking_log_payment = #{parkingLogPayment} and
+				</if>
+				<if test="parkingLogStartTime != null and parkingLogStartTime != ''">
+					parking_log_start_time &lt;=  #{parkingLogStartTime} and
+				</if>
+				<if test="parkingLogEndTime != null and parkingLogEndTime != ''">
+					parking_log_end_time &gt;= #{parkingLogEndTime} and
+				</if>
+			</trim>
+		</where>
+	</select>
+
+
+
+	<insert id="save" parameterType="com.parkingmanagement.entity.ParkingLog"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
+		insert into parking_log(parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time)
+		values (#{parkingLogParkingId},#{parkingLogPlateId},#{parkingLogUserId},#{parkingLogStartTime})
+	</insert>
+
+	<select id="getById" parameterType="Integer" resultMap="BaseResultMap">
+		select 	<include refid="base_select"/>
+		FROM parking_log
+		where  parking_log_id = #{parkingLogId}
+	</select>
+
+
+	<update id="updateParking" parameterType="com.parkingmanagement.entity.ParkingLog" >
+		update parking_log set
+	  	<trim suffixOverrides=",">
+			<if test="parkingLogParkingId != null and parkingLogParkingId != ''">
+				parking_log_parking_id = #{parkingLogParkingId} ,
+			</if>
+			<if test="parkingLogPlateId != null and parkingLogPlateId != ''">
+				parking_log_plate_id = #{parkingLogPlateId} ,
+			</if>
+			<if test="parkingLogUserId != null and parkingLogUserId != ''">
+				parking_log_user_id = #{parkingLogUserId} ,
+			</if>
+			<if test="parkingLogPayment != null and parkingLogPayment != ''">
+				parking_log_payment = #{parkingLogPayment} ,
+			</if>
+			<if test="parkingLogStartTime != null and parkingLogStartTime != ''">
+				parking_log_start_time &lt;=  #{parkingLogStartTime} ,
+			</if>
+			<if test="parkingLogEndTime != null and parkingLogEndTime != ''">
+				parking_log_end_time &gt;= #{parkingLogEndTime} ,
+			</if>
+		</trim>
+		where carport_id = #{carportId}
+	</update>
+
+
+</mapper>
+ 
+

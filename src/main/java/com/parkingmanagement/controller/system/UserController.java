@@ -23,7 +23,7 @@ public class UserController {
 
 
 
-
+    //用户主页
     @RequiresRoles({"user"})
     @RequestMapping(value = "/index")
     public String toIndex(HttpServletRequest request, String username){
@@ -31,7 +31,7 @@ public class UserController {
         return "/base/user/index.html";
     }
 
-
+    //注册
     @ResponseBody
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public String registerUser(User user){
@@ -45,7 +45,7 @@ public class UserController {
         return JSONObject.toJSONString(result);
     }
 
-
+    //预约
     @ResponseBody
     @RequestMapping(value = "/order",method = RequestMethod.POST)
     public String orderCarport(OrderCarport orderCarport){
@@ -58,6 +58,44 @@ public class UserController {
         }
         return JSONObject.toJSONString(result);
     }
+
+    //用户个人信息修改
+    @ResponseBody
+    @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
+    public BaseResult updateUser(User user){
+        BaseResult result = new BaseResult();
+        try {
+            result = userService.updateUser(user);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMsg("用户更改失败，请重新修改");
+        }
+        return result;
+    }
+
+    //用户禁用
+    @RequiresRoles({"admin"})
+    @ResponseBody
+    @RequestMapping(value = "/delUser",method = RequestMethod.POST)
+    public BaseResult delUser(User user){
+        BaseResult result = new BaseResult();
+        try {
+            result = userService.delUser(user);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setMsg("用户禁用失败，请重新禁用");
+        }
+        return result;
+    }
+
+    //去车牌管理页面
+    @RequiresRoles({"user"})
+    @ResponseBody
+    @RequestMapping(value = "/toPlate",method = RequestMethod.GET)
+    public String toPlate(){
+        return "/base/user/plate.html";
+    }
+
 
 
 }

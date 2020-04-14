@@ -11,10 +11,6 @@ import java.util.Map;
 
 @Mapper
 public interface UserDao {
-    public User getUser(@Param("username") String userName, @Param("password") String password);
-
-    User getUserByUsername(@Param("username") String username);
-
     List<User> getList();
 
     List<User> query(Map<String,Object> queryMap);
@@ -22,4 +18,8 @@ public interface UserDao {
     void save(User user);
 
     Integer update(User user);
+
+    User getUserById (Integer userId);
+
+    User getUserByUsername(String userName);
 }
