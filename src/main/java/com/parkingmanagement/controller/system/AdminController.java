@@ -24,11 +24,11 @@ public class AdminController {
     @ResponseBody
     @RequiresRoles({"admin"})
     @RequestMapping(value = "/userList")
-    public PageList getUserList(@RequestParam ("page")Integer pageNum, @RequestParam ("limit")Integer limit){
+    public PageList getUserList(){
         PageList pageList = new PageList();
         try {
             HashMap<String,Object> queryHash =new HashMap<>();
-            pageList = userService.getPageList(pageNum,limit,queryHash);
+            pageList = userService.getPageList(queryHash);
         }catch (Exception e){
             e.printStackTrace();
         }

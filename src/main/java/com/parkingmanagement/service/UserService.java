@@ -14,7 +14,7 @@ public interface UserService {
 
     BaseResult register(User user);
 
-    PageList getPageList(Integer pageNum, Integer pageSize,HashMap<String,Object> queryMap);
+    PageList getPageList(HashMap<String,Object> queryMap);
 
     BaseResult updateUser(User user);
 

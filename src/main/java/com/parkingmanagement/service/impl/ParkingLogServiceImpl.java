@@ -28,7 +28,15 @@ public class ParkingLogServiceImpl implements ParkingLogService {
 
     @Override
     public BaseResult addParkingLog(ParkingLog parkingLog) {
+        BaseResult baseResult  = new BaseResult();
+        if (parkingLog == null || parkingLog.getParkingLogPlateId()==null || parkingLog.getParkingLogParkingId()==null){
 
+        }
+        return null;
+    }
+
+    @Override
+    public BaseResult updateParkingLog(ParkingLog parkingLog) {
         return null;
     }
 }

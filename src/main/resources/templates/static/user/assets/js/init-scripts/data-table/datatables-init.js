@@ -10,7 +10,9 @@
     });
 
     $('#bootstrap-data-table-export').DataTable({
-        lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        lengthMenu: [1, 2, 5, 7, 10],
+        // 每页的初期件数 用户可以操作lengthMenu上的值覆盖
+        pageLength: 5,
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
         dataType: "json",
         oPaginate: {
@@ -33,6 +35,8 @@
                 sPrevious: "上页"
             }
         },
+        autoWidth: true,
+        deferRender: true,
         ajax: {
             url: "/admin/userList",
             dataSrc: function (data) {
