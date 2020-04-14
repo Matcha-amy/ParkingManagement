@@ -59,10 +59,10 @@
 
                                 <!--增删改-->
 
-                                <svg style="float: right" class="bi bi-person-plus-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm7.5-3a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
-                                    <path fill-rule="evenodd" d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z" clip-rule="evenodd"/>
-                                </svg>
+<!--                                <button style="float: right; background-color: transparent" data-toggle='modal' data-target='#exampleModalCenter' onclick="showDiv(null,'add')"><svg  class="bi bi-person-plus-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">-->
+<!--                                    <path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm7.5-3a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>-->
+<!--                                    <path fill-rule="evenodd" d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z" clip-rule="evenodd"/>-->
+<!--                                </svg></button>-->
 
                                 <!--增删改-->
                             </div>
@@ -96,7 +96,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -105,7 +105,7 @@
                     <form>
                         <div class="form-group">
                             <label for="showDivUsername">用户名</label>
-                            <input type="text" class="form-control" id="showDivUsername" readonly>
+                            <input type="text" class="form-control" id="showDivUsername">
                         </div>
                         <div class="form-group">
                             <label for="showDivUserRole">用户角色</label>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="form-group">
                             <label for="showDivBalance">余额</label>
-                            <input class="form-control" type="text" id="showDivBalance" readonly>
+                            <input class="form-control" type="text" id="showDivBalance">
                         </div>
                         <div>
                             <label for="showDivUserStatus">用户状态</label>
@@ -126,11 +126,12 @@
                                 <option value="1">禁用</option>
                             </select>
                         </div>
+                        <input type="text" style="display: none" id="showDivUserId">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="updateSave()">保存</button>
                 </div>
             </div>
         </div>
@@ -163,20 +164,79 @@
     </script>
 
 <script>
+    //保存修改
+    function updateSave() {
+        var userId = $("#showDivUserId").val();
+        if(userId != null){
+            //保存数据
+            //获取值
+            var userRole = $("#showDivUserRole").val();
+            var userStatus = $("#showDivUserStatus").val();
+            //发送请求
+            var url="/user/updateUser";
+            $.post(url,{userId:userId,roleId:userRole,status:userStatus},
+                function (data) {
+                    //回调方法
+                    if(data.status){
+                        //修改成功
+                        alert("修改成功");
+                        //刷新页面
+                        location.reload();
+                    }else {
+                        alert("修改失败")
+                    }
+                },"json"
+            );
+        }else{
+            //获取值
+            var userRole = $("#showDivUserRole").val();
+            var userStatus = $("#showDivUserStatus").val();
+            var username = $("#showDivUsername").val();
+            var balance = $("#showDivBalance").val();
+            //发送请求
+            var url="/user/register";
+            $.post(url,{userId:userId,roleId:userRole,status:userStatus,balance:balance,username:username},
+                function (data) {
+                    //回调方法
+                    if(data.status){
+                        //修改成功
+                        alert("添加成功");
+                        //刷新页面
+                        location.reload();
+                    }else {
+                        alert("添加失败")
+                    }
+                },"json"
+            );
+        }
+
+
+    }
+    // 打开弹窗
     function showDiv( row , methodType )  {
         console.log(row);
         console.log(methodType);
-
+        $("#showDivUsername").val("");
+        $("#showDivUserRole").val("");
+        $("#showDivBalance").val("");
+        $("#showDivUserStatus").val("");
+        $("#showDivUserId").val("");
         if(methodType=="add"){
             //添加
-
+            $("#exampleModalCenterTitle").text("添加用户或管理员");
 
         }else {
-            alert("update")
-            console.log(row);
             //修改
             $("#showDivUsername").val(row.username);
+            $("#showDivUserRole").val(row.roleId);
+            $("#showDivBalance").val(row.balance);
+            $("#showDivUserStatus").val(row.status);
+            $("#showDivUserId").val(row.userId);
+            //禁用用户名和余额
+            $("#showDivBalance").attr({disabled:"true"});
+            $("#showDivUsername").attr({disabled: "true"});
 
+            $("#exampleModalCenterTitle").text("修改个人信息");
         }
         $("#updateOrAddDiv").show();
     }
