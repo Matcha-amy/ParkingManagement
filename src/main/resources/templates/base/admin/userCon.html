@@ -7,6 +7,7 @@
 <!--<![endif]-->
 
 <head>
+
     <title>用户管理</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -71,40 +72,17 @@
                                     <tr>
                                         <th>用户名</th>
                                         <th>角色</th>
-                                        <th>缴费记录</th>
-                                        <th>停车记录</th>
+                                        <th>余额</th>
+                                        <th>用户状态</th>
+                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody id="userTable">
-                                    <tr>
-                                        <td>马化腾</td>
-                                        <td>VIP用户</td>
-                                        <td>￥99999</td>
-                                        <td>上次停车时间：2020.02.29</td>
-                                    </tr>
-                                    <tr>
-                                        <td>风清扬</td>
-                                        <td>VIP用户</td>
-                                        <td>￥88888</td>
-                                        <td>上次停车时间：2020.03.15</td>
-                                    </tr>
-                                    <tr>
-                                        <td>彭于晏</td>
-                                        <td>VIP用户</td>
-                                        <td>￥520</td>
-                                        <td>上次停车时间：2020.03.31</td>
-                                    </tr>
-                                    <tr>
-                                        <td>刘昊然</td>
-                                        <td>普通用户</td>
-                                        <td>￥0</td>
-                                        <td>上次停车时间：-</td>
-                                    </tr>
+
                                 </table>
                             </div>
                         </div>
                     </div>
-
 
                 </div>
             </div><!-- .animated -->
@@ -113,6 +91,50 @@
 
     </div><!-- /#right-panel -->
 
+<!--    修改弹窗-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="showDivUsername">用户名</label>
+                            <input type="text" class="form-control" id="showDivUsername" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="showDivUserRole">用户角色</label>
+                            <select class="form-control" id="showDivUserRole" name="roleId">
+                                <option value="3">普通用户</option>
+                                <option value="4">VIP用户</option>
+                                <option value="1">管理员</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="showDivBalance">余额</label>
+                            <input class="form-control" type="text" id="showDivBalance" readonly>
+                        </div>
+                        <div>
+                            <label for="showDivUserStatus">用户状态</label>
+                            <select class="form-control" id="showDivUserStatus" name="status">
+                                <option value="0">使用中</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Right Panel -->
     <script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
 
@@ -139,6 +161,28 @@
         $("#navbar").load("../base/admin/navbar.html");
         $("#header").load("../base/admin/base_right_header.html");
     </script>
+
+<script>
+    function showDiv( row , methodType )  {
+        console.log(row);
+        console.log(methodType);
+
+        if(methodType=="add"){
+            //添加
+
+
+        }else {
+            alert("update")
+            console.log(row);
+            //修改
+            $("#showDivUsername").val(row.username);
+
+        }
+        $("#updateOrAddDiv").show();
+    }
+</script>
 </body>
+
+
 
 </html>
