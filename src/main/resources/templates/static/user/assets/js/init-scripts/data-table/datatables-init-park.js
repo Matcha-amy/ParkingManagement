@@ -34,48 +34,34 @@
             }
         },
         ajax: {
-            url: "/admin/userList",
+            url: "/admin/parking/list",
             dataSrc: function (data) {
                 return data.rows;
             }
         },
         columns: [
             {
-                'data': 'username',
+                'data': 'parkingName',
                 sortable: true
             },
             {
-                'data': 'roleid',
+                'data': 'none',
                 sortable: true,
                 "render":function (data,type,row,meta) {
-                    if(row.roleId==3){
-                        return "普通用户";
-                    } else if (row.roleId == 1){
-                        return "管理员";
-                    }else if (row.roleId == 4){
-                        return "VIP用户";
-                    } else {
-                        return "测试";
-                    }
+                    return row.parkingCarportSize-row.parkingCarportUsed
+
                 }
             },
             {
-                'data': 'balance',
+                'data': 'parkingCarportSize',
                 sortable: true
 
-            }, {
-                'data': 'status' ,
-                "render":function (data,type,row,meta) {
-                    if(row.status ==0){
-                        return "使用中";
-                    } else if (row.status == 1)
-                    {
-                        return "禁用";
-                    }else {
-                        return "禁用";
-                    }
-                }
-            },{
+            },
+            {
+                'data': 'parkingPrice' ,
+                sortable: true
+            },
+            {
             "data":null,"render":function (data,type,row, meta) {
                     console.log(row);
 
