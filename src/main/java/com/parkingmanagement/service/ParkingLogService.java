@@ -11,4 +11,6 @@ public interface ParkingLogService {
     List<ParkingLog> getList(ListQuery query);
 
     BaseResult addParkingLog(ParkingLog parkingLog);
+
+    BaseResult updateParkingLog(ParkingLog parkingLog);
 }

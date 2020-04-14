@@ -53,23 +53,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PageList getPageList(Integer pageNum, Integer pageSize,HashMap<String,Object> queryMap) {
-        PageHelper.startPage(pageNum, pageSize);
+    public PageList getPageList(HashMap<String,Object> queryMap) {
         List<User> userList = userDao.query(queryMap);
-        PageInfo<User> page = new PageInfo<User>(userList);
         PageList pageList = new PageList();
-        pageList.setTotal(page.getTotal());
-        pageList.setRows(page.getList());
+        pageList.setRows(userList);
         return pageList;
     }
 
     @Override
     public BaseResult updateUser(User user) {
         BaseResult result = new BaseResult();
-        HashMap<String,Object> queryHash =new HashMap<>();
-        queryHash.put("userId",user.getUserId());
-        List<User> users = userDao.query(queryHash);
-        if (users!=null && users.get(0).equals(user)){
+        User dbUser = userDao.getUserById(user.getUserId());
+        if (dbUser!=null && dbUser.equals(user)){
             return result.setMsg("该用户无更改");
         }
         Integer updateStatus = userDao.update(user);

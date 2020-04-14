@@ -1,7 +1,6 @@
 package com.parkingmanagement.controller;
 
-import com.parkingmanagement.entity.Carport;
-import com.parkingmanagement.entity.Parking;
+
 import com.parkingmanagement.entity.ParkingLog;
 import com.parkingmanagement.entity.vo.ListQuery;
 import com.parkingmanagement.service.ParkingLogService;
@@ -56,5 +55,18 @@ public class ParkingLogController {
         return result;
     }
 
+    @RequiresRoles({"user"})
+    @ResponseBody
+    @RequestMapping("/update")
+    public BaseResult updateParkingLog(ParkingLog parkingLog){
+        BaseResult result = new BaseResult();
+        try {
+            result = parkingLogService.updateParkingLog(parkingLog);
+        }catch (Exception e){
+            e.printStackTrace();
+            return result.setMsg("修改车记录失败");
+        }
+        return result;
+    }
 
 }
