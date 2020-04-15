@@ -159,7 +159,7 @@
     //保存修改
     function updateSave() {
         var userId = $("#showDivUserId").val();
-        if(userId != null){
+
             //保存数据
             //获取值
             var userRole = $("#showDivUserRole").val();
@@ -179,28 +179,7 @@
                     }
                 },"json"
             );
-        }else{
-            //获取值
-            var userRole = $("#showDivUserRole").val();
-            var userStatus = $("#showDivUserStatus").val();
-            var username = $("#showDivUsername").val();
-            var balance = $("#showDivBalance").val();
-            //发送请求
-            var url="/user/register";
-            $.post(url,{userId:userId,roleId:userRole,status:userStatus,balance:balance,username:username},
-                function (data) {
-                    //回调方法
-                    if(data.status){
-                        //修改成功
-                        alert("添加成功");
-                        //刷新页面
-                        location.reload();
-                    }else {
-                        alert("添加失败")
-                    }
-                },"json"
-            );
-        }
+
 
 
     }
@@ -213,11 +192,7 @@
         $("#showDivBalance").val("");
         $("#showDivUserStatus").val("");
         $("#showDivUserId").val("");
-        if(methodType=="add"){
-            //添加
-            $("#exampleModalCenterTitle").text("添加用户或管理员");
 
-        }else {
             //修改
             $("#showDivUsername").val(row.username);
             $("#showDivUserRole").val(row.roleId);
@@ -229,7 +204,7 @@
             $("#showDivUsername").attr({disabled: "true"});
 
             $("#exampleModalCenterTitle").text("修改个人信息");
-        }
+
         $("#updateOrAddDiv").show();
     }
 </script>

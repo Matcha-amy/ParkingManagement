@@ -25,7 +25,7 @@ public class ParkingController {
     @RequiresRoles({"admin"})
     @RequestMapping(value = "/toParking")
     public String toParking(){
-        return "/base/admin/parking,html";
+        return "/base/admin/park.html";
     }
 
     //查看

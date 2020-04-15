@@ -45,12 +45,8 @@
                 sortable: true
             },
             {
-                'data': 'none',
+                'data': 'freeCarport',
                 sortable: true,
-                "render":function (data,type,row,meta) {
-                    return row.parkingCarportSize-row.parkingCarportUsed
-
-                }
             },
             {
                 'data': 'parkingCarportSize',
