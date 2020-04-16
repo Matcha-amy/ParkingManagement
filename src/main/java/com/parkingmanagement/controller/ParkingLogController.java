@@ -15,19 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user/parkingLog")
+@RequestMapping("/base/parkingLog")
 public class ParkingLogController {
 
     @Autowired
     private ParkingLogService parkingLogService;
 
-    @RequiresRoles({"user"})
+
     @RequestMapping(value = "/toParkingLog")
     public String toParking(){
-        return "/base/admin/parkingLog,html";
+        return "/base/admin/parkingLog.html";
     }
 
-    @RequiresRoles({"user"})
+
     @ResponseBody
     @RequestMapping("/list")
     public List<ParkingLog> getList(ListQuery query){
@@ -41,7 +41,7 @@ public class ParkingLogController {
         return parkingLogList;
     }
 
-    @RequiresRoles({"user"})
+
     @ResponseBody
     @RequestMapping("/add")
     public BaseResult getList(ParkingLog parkingLog){
@@ -55,7 +55,7 @@ public class ParkingLogController {
         return result;
     }
 
-    @RequiresRoles({"user"})
+
     @ResponseBody
     @RequestMapping("/update")
     public BaseResult updateParkingLog(ParkingLog parkingLog){
