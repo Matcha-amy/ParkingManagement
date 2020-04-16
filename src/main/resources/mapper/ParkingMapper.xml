@@ -7,12 +7,12 @@
 		<result column="parking_name" property="parkingName"  />
 		<result column="parking_status" property="parkingStatus"  />
 		<result column="parking_carport_size" property="parkingCarportSize"  />
-		<result column="parking_carport_used" property="parkingCarportUsed"  />
+		<result column="parking_free_carport" property="parkingFreeCarport"  />
 		<result column="parking_price" property="parkingPrice"  />
 	</resultMap>
 
 	<sql id="base_select">
-		parking_id,parking_name,parking_status,parking_carport_size,parking_carport_used,parking_price
+		parking_id,parking_name,parking_status,parking_carport_size,parking_free_carport,parking_price
 	</sql>
 
 	<select id="getList" resultMap="BaseResultMap">
@@ -24,8 +24,8 @@
 
 
 	<insert id="save" parameterType="com.parkingmanagement.entity.Parking"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
-		insert into parking(parking_name,parking_status,parking_carport_size,parking_carport_used,parking_price)
-		values (#{parkingName},#{parkingStatus},#{parkingCarportSize},#{parkingCarportUsed},#{parkingPrice})
+		insert into parking(parking_name,parking_status,parking_carport_size,parking_free_carport,parking_price)
+		values (#{parkingName},#{parkingStatus},#{parkingCarportSize},#{parkingFreeCarport},#{parkingPrice})
 	</insert>
 
 	<select id="getById" parameterType="Integer" resultMap="BaseResultMap">
@@ -55,8 +55,8 @@
 			<if test="parkingCarportSize != null and parkingCarportSize != ''">
 				parking_carport_size = #{parkingCarportSize},
 			</if>
-			<if test="parkingCarportUsed != null and parkingCarportUsed != ''">
-				parking_carport_used = #{parkingCarportUsed},
+			<if test="parkingFreeCarport != null and parkingFreeCarport != ''">
+				parking_free_carport = #{parkingFreeCarport},
 			</if>
 			<if test="parkingPrice != null and parkingPrice != ''">
 				parking_price = #{parkingPrice},

@@ -107,14 +107,14 @@
                         <input type="text" class="form-control" id="showDivfreeCarport">
                     </div>
                     <div class="form-group">
-                        <label for="parkingCarportSize">总车位数</label>
-                        <input class="form-control" type="text" id="parkingCarportSize">
+                        <label for="showDivparkingCarportSize">总车位数</label>
+                        <input class="form-control" type="text" id="showDivparkingCarportSize">
                     </div>
                     <div>
-                        <label for="parkingPrice">收费单价</label>
-                        <input type="text" class="form-control" id="parkingPrice">
+                        <label for="showDivparkingPrice">收费单价</label>
+                        <input type="text" class="form-control" id="showDivparkingPrice">
                     </div>
-                    <input type="text" style="display: none" id="showDivUserId">
+                    <input type="text" style="display: none" id="showDivparkingId">
                 </form>
             </div>
             <div class="modal-footer">
@@ -165,8 +165,8 @@
             var parkingCarportSize = $("#showDivparkingCarportSize").val();
             var parkingPrice = $("#showDivparkingPrice").val();
             //发送请求
-            var url="/user/parking/updateParking";
-            $.post(url,{parkingId:parkingId,parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,freeCarport:freeCarport},
+            var url="/admin/parking/updateParking";
+            $.post(url,{parkingId:parkingId,parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,parkingFreeCarport:freeCarport},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -182,12 +182,12 @@
         }else{
             //添加获取值
             var parkingName = $("#showDivparkingName").val();
-            var showDivfreeCarport = $("#showDivshowDivfreeCarport").val();
+            var showDivfreeCarport = $("#showDivfreeCarport").val();
             var parkingCarportSize = $("#showDivparkingCarportSize").val();
             var parkingPrice = $("#showDivparkingPrice").val();
             //发送请求
-            var url="/user/parking/addParking";
-            $.post(url,{parkingId:parkingId,parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,freeCarport:freeCarport},
+            var url="/admin/parking/addParking";
+            $.post(url,{parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,parkingFreeCarport:showDivfreeCarport},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -219,11 +219,11 @@
 
         }else {
             //修改
-            $("#showDivparkiName").val(row.username);
-            $("#showDivfreeCarport").val(row.roleId);
-            $("#showDivparkingCarportSize").val(row.balance);
-            $("#showDivparkingPrice").val(row.status);
-            $("#showDivparkingId").val(row.userId);
+            $("#showDivparkingName").val(row.parkingName);
+            $("#showDivfreeCarport").val(row.parkingFreeCarport);
+            $("#showDivparkingCarportSize").val(row.parkingCarportSize);
+            $("#showDivparkingPrice").val(row.parkingPrice);
+            $("#showDivparkingId").val(row.parkingId);
 
 
             $("#exampleModalCenterTitle").text("修改");
