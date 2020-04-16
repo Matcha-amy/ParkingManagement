@@ -73,13 +73,13 @@
 				parking_log_payment = #{parkingLogPayment} ,
 			</if>
 			<if test="parkingLogStartTime != null and parkingLogStartTime != ''">
-				parking_log_start_time &lt;=  #{parkingLogStartTime} ,
+				parking_log_start_time =  #{parkingLogStartTime} ,
 			</if>
 			<if test="parkingLogEndTime != null and parkingLogEndTime != ''">
-				parking_log_end_time &gt;= #{parkingLogEndTime} ,
+				parking_log_end_time  = #{parkingLogEndTime} ,
 			</if>
 		</trim>
-		where carport_id = #{carportId}
+		where parking_log_id = #{parkingLogId}
 	</update>
 
 

@@ -10,6 +10,16 @@
 		<result column="orderCarport_status" property="orderCarportStatus"  />
 	</resultMap>
 
+	<resultMap id="VOMap" type="com.parkingmanagement.entity.vo.OrderVO" >
+		<id column="orderCarportId" property="orderCarportId" />
+		<result column="username" property="username"  />
+		<result column="plateCode" property="plateCode"  />
+		<result column="parkingName" property="parkingName"  />
+		<result column="carportNum" property="carportNum"  />
+		<result column="orderTime" property="orderCarportTime"  />
+		<result column="orderStatus" property="orderCarportStatus"  />
+	</resultMap>
+
 	<sql id="base_select">
 		orderCarport_id,orderCarport_carport_id,orderCarport_carport_id,orderCarport_time,orderCarport_status
 	</sql>
@@ -60,6 +70,16 @@
 		where orderCarport_id = #{orderCarportId}
 	</update>
 
+	<select id="getVOList" resultMap="VOMap" parameterType="Integer">
+		select  u.username username , pl.plate_code plateCode , c.carport_num carportNum ,p.parking_name parkingName
+		, oc.orderCarport_time orderTime , oc.orderCarport_status orderStatus, oc.orderCarport_id orderCarportId
+		from ordercarport oc, user u ,plate pl ,carport c , parking p
+		where oc.orderCarport_user_id =1 and u.user_id = oc.orderCarport_user_id and u.user_id = pl.user_id
+		and oc.orderCarport_carport_id = c.carport_id and  p.parking_id = c.parking_id
+		<if test="userId != null and userId != ''">
+			and  u.user_id = #{userId}
+		</if>
+	</select>
 
 </mapper>
  

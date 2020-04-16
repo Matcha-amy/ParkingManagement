@@ -224,14 +224,19 @@
     }
     // 打开弹窗
     function showDiv( row , methodType )  {
-        console.log(row);
-        console.log(methodType);
        $("#showDivusername").val("");
         $("#showDivplateCode").val("");
         $("#showDivparkingName").val("");
         $("#showDivCarportNum").val("");
         $("#showDivorderTime").val("");
         $("#showDivorderStatus").val("");
+
+        $("#showDivusername").removeAttr("disabled");
+        $("#showDivplateCode").removeAttr("disabled");
+        $("#showDivparkingName").removeAttr("disabled");
+        $("#showDivCarportNum").removeAttr("disabled");
+        $("#showDivorderTime").removeAttr("disabled");
+        $("#showDivorderStatus").removeAttr("disabled");
         if(methodType=="add"){
             //添加
             $("#exampleModalCenterTitle").text("添加预约");
@@ -242,15 +247,18 @@
             $("#showDivplateCode").val(row.plateCode);
             $("#showDivparkingName").val(row.parkingName);
             $("#showDivCarportNum").val(row.carportNum);
-            $("#showDivorderTime").val(row.orderTime);
-            $("#showDivorderStatus").val(row.orderStatus);
+            $("#showDivorderTime").val(row.orderCarportTime);
+            $("#showDivorderStatus").val(row.orderCarportStatus);
             //禁止修改除状态之外的数据
             $("#showDivusername").attr({disabled:"true"});
             $("#showDivplateCode").attr({disabled:"true"});
             $("#showDivparkingName").attr({disabled:"true"});
             $("#showDivCarportNum").attr({disabled:"true"});
             $("#showDivorderTime").attr({disabled:"true"});
-
+            var status = row.orderCarportStatus;
+            if(status != 0){
+                $("#showDivorderStatus").attr({disabled:"true"});
+            }
             $("#exampleModalCenterTitle").text("修改");
         }
         $("#updateOrAddDiv").show();

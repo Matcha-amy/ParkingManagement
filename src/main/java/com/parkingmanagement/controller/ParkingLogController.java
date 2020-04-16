@@ -3,6 +3,7 @@ package com.parkingmanagement.controller;
 
 import com.parkingmanagement.entity.ParkingLog;
 import com.parkingmanagement.entity.vo.ListQuery;
+import com.parkingmanagement.entity.vo.ParkingLogVO;
 import com.parkingmanagement.service.ParkingLogService;
 import com.parkingmanagement.utils.BaseResult;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -30,10 +31,10 @@ public class ParkingLogController {
 
     @ResponseBody
     @RequestMapping("/list")
-    public List<ParkingLog> getList(ListQuery query){
-        List<ParkingLog> parkingLogList = new ArrayList<>();
+    public List<ParkingLogVO> getList(){
+        List<ParkingLogVO> parkingLogList = new ArrayList<>();
         try {
-            parkingLogList = parkingLogService.getList(query);
+            parkingLogList = parkingLogService.getList();
         }catch (Exception e){
             e.printStackTrace();
             return null;
@@ -44,10 +45,10 @@ public class ParkingLogController {
 
     @ResponseBody
     @RequestMapping("/add")
-    public BaseResult getList(ParkingLog parkingLog){
+    public BaseResult getList(ParkingLogVO parkingLogVO){
         BaseResult result = new BaseResult();
         try {
-            result = parkingLogService.addParkingLog(parkingLog);
+            result = parkingLogService.addParkingLog(parkingLogVO);
         }catch (Exception e){
             e.printStackTrace();
             return result.setMsg("添加停车记录失败");
@@ -58,10 +59,10 @@ public class ParkingLogController {
 
     @ResponseBody
     @RequestMapping("/update")
-    public BaseResult updateParkingLog(ParkingLog parkingLog){
+    public BaseResult updateParkingLog(ParkingLogVO parkingLogVO){
         BaseResult result = new BaseResult();
         try {
-            result = parkingLogService.updateParkingLog(parkingLog);
+            result = parkingLogService.updateParkingLog(parkingLogVO);
         }catch (Exception e){
             e.printStackTrace();
             return result.setMsg("修改车记录失败");
