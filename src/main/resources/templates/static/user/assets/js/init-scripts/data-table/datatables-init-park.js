@@ -36,7 +36,7 @@
         ajax: {
             url: "/admin/parking/list",
             dataSrc: function (data) {
-                return data.rows;
+                return data;
             }
         },
         columns: [
@@ -45,7 +45,7 @@
                 sortable: true
             },
             {
-                'data': 'freeCarport',
+                'data': 'parkingFreeCarport',
                 sortable: true,
             },
             {
