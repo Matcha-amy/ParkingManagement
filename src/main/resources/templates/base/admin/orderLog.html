@@ -197,15 +197,14 @@
             );
         }else{
             //添加获取值
-            var showDivusername = $("#showDivusername").val();
-            var plateCode= $("#showDivplateCode").val();
-            var parkingName = $("#showDivparkingName").val();
-            var CarportNum = $("#showDivCarportNum").val();
-            var orderTime = $("#showDivorderTime").val();
-            var orderStatus = $("#showDivorderStatus").val();
+           var username =   $("#showDivusername").val();
+           var parkingName =  $("#showDivparkingName").val();
+           var carportNum =  $("#showDivCarportNum").val();
+           var orderCarportTime =  $("#showDivorderTime").val();
+           var orderCarportStatus = $("#showDivorderStatus").val();
             //发送请求
-            var url="/user/parking/addParking";
-            $.post(url,{showDivusername:showDivusername,plateCode:plateCode,parkingName:parkingName,CarportNum:CarportNum,orderTime:orderTime,orderStatus:orderStatus},
+            var url="/base/order/add";
+            $.post(url,{username:username,parkingName:parkingName,carportNum:carportNum,orderCarportTime:orderCarportTime,orderCarportStatus:orderCarportStatus},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -214,7 +213,7 @@
                         //刷新页面
                         location.reload();
                     }else {
-                        alert("添加失败")
+                        alert(data.msg)
                     }
                 },"json"
             );

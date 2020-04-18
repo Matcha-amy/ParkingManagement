@@ -1,5 +1,6 @@
 package com.parkingmanagement.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,6 +26,12 @@ public class TimeUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String format = simpleDateFormat.format(new Date(time));
         return format;
+    }
+
+    public static Long strToTime(String str) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date parse = simpleDateFormat.parse(str);
+        return parse.getTime();
     }
 
 }
