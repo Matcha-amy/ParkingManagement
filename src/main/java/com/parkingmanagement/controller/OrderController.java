@@ -19,9 +19,16 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/toOrder")
-    public String toParking(){
+    @RequiresRoles("admin")
+    @RequestMapping(value = "/toAdminOrder")
+    public String toAdminOrder(){
         return "/base/admin/orderLog.html";
+    }
+
+    @RequiresRoles("user")
+    @RequestMapping(value = "/toUserOrder")
+    public String toUserOrder(){
+        return "/base/user/order.html";
     }
 
     @ResponseBody
