@@ -27,8 +27,6 @@
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
-
-
 </head>
 
 <body>
@@ -78,8 +76,8 @@
                         <div class="card-header">
                             <h4>World</h4>
                         </div>
-                        <div class="Vector-map-js">
-                            <div id="vmap" class="vmap"></div>
+                        <div id="baiduMap">
+                            <iframe src="baidu.html" width="100%" height="300" frameborder="0" scrolling="no"></iframe>
                         </div>
                     </div>
                     <!-- /# card -->
@@ -299,6 +297,9 @@
 <script>
     $("#navbar").load("navbar.html");
     $("#header").load("base_right_header.html");
+</script>
+<script>
+    $("#baiduMap").load("baidu.html");
 </script>
 
 
