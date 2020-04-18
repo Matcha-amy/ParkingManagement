@@ -2,15 +2,16 @@ package com.parkingmanagement.service;
 
 import com.parkingmanagement.entity.ParkingLog;
 import com.parkingmanagement.entity.vo.ListQuery;
+import com.parkingmanagement.entity.vo.ParkingLogVO;
 import com.parkingmanagement.utils.BaseResult;
 
 import java.util.List;
 
 public interface ParkingLogService {
 
-    List<ParkingLog> getList(ListQuery query);
+    List<ParkingLogVO> getList();
 
-    BaseResult addParkingLog(ParkingLog parkingLog);
+    BaseResult addParkingLog(ParkingLogVO parkingLogVO);
 
-    BaseResult updateParkingLog(ParkingLog parkingLog);
+    BaseResult updateParkingLog(ParkingLogVO parkingLogVO);
 }

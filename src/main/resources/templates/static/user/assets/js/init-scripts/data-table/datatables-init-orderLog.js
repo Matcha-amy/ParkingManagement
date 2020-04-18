@@ -38,9 +38,9 @@
         autoWidth: true,
         deferRender: true,
         ajax: {
-            url: "/admin/userList",
+            url: "/base/order/list",
             dataSrc: function (data) {
-                return data.rows;
+                return data;
             }
         },
         columns: [
@@ -61,24 +61,24 @@
                 sortable: true
             },
             {
-                'data': 'orderTime',
+                'data': 'orderCarportTime',
                 sortable: true
 
+
             }, {
-                'data': 'orderStatus' ,
+                'data': 'orderCarportStatus' ,
                 "render":function (data,type,row,meta) {
-                    if(row.status ==0){
-                        return "使用中";
-                    } else if (row.status == 1)
+                    if(row.orderCarportStatus ==0){
+                        return "预约中";
+                    } else if (row.orderCarportStatus == 1)
                     {
-                        return "禁用";
+                        return "已完成";
                     }else {
-                        return "禁用";
+                        return "已违约";
                     }
                 }
             },{
             "data":null,"render":function (data,type,row, meta) {
-                    console.log(row);
 
                     var methodType = "update";
                     var html="<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModalCenter' onclick='showDiv("+JSON.stringify(row)+","+JSON.stringify(methodType)+")'>修改</button>"

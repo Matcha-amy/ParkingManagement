@@ -157,7 +157,7 @@
     function updateSave() {
         var parkingId = $("#showDivparkingId").val();
         //修改
-        if(parkingId != null){
+        if(parkingId != null && parkingId != ''){
             //保存数据
             //获取值
             var parkingName = $("#showDivparkingName").val();
@@ -206,8 +206,6 @@
     }
     // 打开弹窗
     function showDiv( row , methodType )  {
-        console.log(row);
-        console.log(methodType);
         $("#showDivparkingName").val("");
         $("#showDivfreeCarport").val("");
         $("#showDivparkingCarportSize").val("");

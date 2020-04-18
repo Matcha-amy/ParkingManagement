@@ -14,7 +14,7 @@
 		carport_id,carport_num,carport_status,carport_pos,parking_id
 	</sql>
 
-	<select id="getList" resultMap="BaseResultMap" parameterType="Map">
+	<select id="query" resultMap="BaseResultMap" parameterType="Map">
 		select <include refid="base_select"/>
 		from carport
 		<where>
@@ -49,12 +49,7 @@
 	</select>
 
 
-	<select id="getByName" parameterType="String" resultMap="BaseResultMap">
-		select 	<include refid="base_select"/>
-		FROM parking
-		where  parking_name = #{parkingName}
-		and parking_status = 0
-	</select>
+
 
 	<update id="updateCarport" parameterType="com.parkingmanagement.entity.Carport" >
 		update carport set

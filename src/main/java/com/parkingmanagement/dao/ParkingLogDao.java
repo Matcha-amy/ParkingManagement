@@ -9,5 +9,9 @@ import java.util.List;
 @Mapper
 public interface ParkingLogDao {
 
-    List<ParkingLog> query(HashMap<String, Object> query);
+    List<ParkingLog> getList(HashMap<String, Object> query);
+
+    void save(ParkingLog parkingLog);
+
+    void updateParking(ParkingLog parkingLog);
 }
