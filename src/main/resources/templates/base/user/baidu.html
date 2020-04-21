@@ -30,6 +30,7 @@
     <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=CAoTSKm4vUlhkVDDbAi3uKvB99CfqDhY"></script>
     <script type="text/javascript" src="//api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
     <link rel="stylesheet" href="//api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.css" />
+    <script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
     <title>带检索功能的信息窗口</title>
 </head>
 <body>
@@ -55,32 +56,51 @@
     //添加控件和比例尺
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
+    // var url="";
+    // var data_info2=[[]];
+    // //获取标注点信息框信息
+    // $.post(url,,function (data) {
+    //     //获取了后台数据 数据data中有经度和纬度 地址信息 停车场ID 停车场名 预约状态 车位数 剩余车位 单价
+    //     //
+    //     for (var i =0 ;i<data.length; i++){
+    //         data_info2[i][0]= data[i].jingdu;
+    //         data_info2[i][1]= data[i].weidu;
+    //         var content = " <span>车位总数："+ data[i].parkingCarportSize+" </span> <br/>"
+    //                      +"<span>剩余车位数量："+data[i].parkingFreeCarport+"</span> <br/>"
+    //                      +"<span>每小时停车单价："+data[i].parkingPrice+"</span> <br/>"
+    //                      +"<button onclick='orderShow("+ data[i].parkingId+")'>预约</button>"
+    //          ;
+    //         data_info2[i][3]= data.parkingName;
+    //     }
+    //
+    // });
 
     //创建多个标注的检索信息窗口对象（从后台获取信息）
-    var data_info = [[120.161952, 30.328663,"地址：1"],
+    var data_info = [[120.161952, 30.328663,"地址：1<button href='#' style=''>预约</button>"],
         [120.151953, 30.328661,"地址：2"],
         [120.161952, 30.318660,"地址：2"]
     ];
     for(var i=0;i<data_info.length;i++){
         var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
         var content = data_info[i][2];
+        var title = data_info[i][3];
         map.addOverlay(marker);               // 将标注添加到地图中
-        addClickHandler(content,marker);
+        addClickHandler(content,marker,title);
     }
-    function addClickHandler(content,marker){
+    function addClickHandler(content,marker,title){
         marker.addEventListener("click",function(e){
-            openInfo(content,e)}
+            openInfo(content,e,title)}
         );
     }
-    function openInfo(content,e){
+    function openInfo(content,e,title){
         var p = e.target;
         var point = new BMap.Point(p.getPosition().lng, p.getPosition().lat);
         var searchInfoWindow = null;//创建窗口对象
         searchInfoWindow = new BMapLib.SearchInfoWindow(map, content, {
-            title  : "百度大厦",      //标题
+            title  : title,      //标题
             width  : 290,             //宽度
             height : 105,              //高度
-            panel  : "panel",         //检索结果面板
+            //panel  : "panel",         //检索结果面板
             enableAutoPan : true,     //自动平移
             searchTypes   :[
             //    BMAPLIB_TAB_SEARCH,   //周边检索
