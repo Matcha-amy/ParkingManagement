@@ -19,5 +19,7 @@ public class Parking {
     private Integer parkingFreeCarport = 0;// 停车场使用车位数量
     private Integer parking = 0;// 停车场使用车位数量
     private Double parkingPrice ; //单价
+    private String Longitude;//经度
+    private String Latitude;//纬度
 
 }
