@@ -170,9 +170,11 @@
             var freeCarport= $("#showDivfreeCarport").val();
             var parkingCarportSize = $("#showDivparkingCarportSize").val();
             var parkingPrice = $("#showDivparkingPrice").val();
+            var longitude =$("#showDivLongitude").val();
+            var latitude =$("#showDivLatitude").val();
             //发送请求
             var url="/admin/parking/updateParking";
-            $.post(url,{parkingId:parkingId,parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,parkingFreeCarport:freeCarport},
+            $.post(url,{parkingId:parkingId,parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,parkingFreeCarport:freeCarport,longitude:longitude,latitude:latitude},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -191,9 +193,11 @@
             var showDivfreeCarport = $("#showDivfreeCarport").val();
             var parkingCarportSize = $("#showDivparkingCarportSize").val();
             var parkingPrice = $("#showDivparkingPrice").val();
+            var longitude =$("#showDivLongitude").val();
+            var latitude =$("#showDivLatitude").val();
             //发送请求
             var url="/admin/parking/addParking";
-            $.post(url,{parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,parkingFreeCarport:showDivfreeCarport},
+            $.post(url,{parkingCarportSize:parkingCarportSize,parkingPrice:parkingPrice,parkingName:parkingName,parkingFreeCarport:showDivfreeCarport,longitude:longitude,latitude:latitude},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -202,7 +206,7 @@
                         //刷新页面
                         location.reload();
                     }else {
-                        alert("添加失败")
+                        alert(data.msg)
                     }
                 },"json"
             );
@@ -217,6 +221,8 @@
         $("#showDivparkingCarportSize").val("");
         $("#showDivparkingPrice").val("");
         $("#showDivparkingId").val("");
+        $("#showDivLongitude").val("");
+        $("#showDivLatitude").val("");
         if(methodType=="add"){
             //添加
             $("#exampleModalCenterTitle").text("添加停车场");
@@ -228,6 +234,8 @@
             $("#showDivparkingCarportSize").val(row.parkingCarportSize);
             $("#showDivparkingPrice").val(row.parkingPrice);
             $("#showDivparkingId").val(row.parkingId);
+            $("#showDivLongitude").val(row.longitude);
+            $("#showDivLatitude").val(row.latitude);
 
 
             $("#exampleModalCenterTitle").text("修改");

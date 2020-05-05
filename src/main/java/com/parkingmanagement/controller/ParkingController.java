@@ -29,7 +29,6 @@ public class ParkingController {
     }
 
     //查看
-    @RequiresRoles({"admin"})
     @ResponseBody
     @RequestMapping(value = "/list")
     public List<Parking>  getList(){

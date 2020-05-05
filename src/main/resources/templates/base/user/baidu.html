@@ -56,30 +56,30 @@
     //添加控件和比例尺
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
-    // var url="";
-    // var data_info2=[[]];
-    // //获取标注点信息框信息
-    // $.post(url,,function (data) {
-    //     //获取了后台数据 数据data中有经度和纬度 地址信息 停车场ID 停车场名 预约状态 车位数 剩余车位 单价
-    //     //
-    //     for (var i =0 ;i<data.length; i++){
-    //         data_info2[i][0]= data[i].jingdu;
-    //         data_info2[i][1]= data[i].weidu;
-    //         var content = " <span>车位总数："+ data[i].parkingCarportSize+" </span> <br/>"
-    //                      +"<span>剩余车位数量："+data[i].parkingFreeCarport+"</span> <br/>"
-    //                      +"<span>每小时停车单价："+data[i].parkingPrice+"</span> <br/>"
-    //                      +"<button onclick='orderShow("+ data[i].parkingId+")'>预约</button>"
-    //          ;
-    //         data_info2[i][3]= data.parkingName;
-    //     }
-    //
-    // });
+    var url="http://localhost:8080/admin/parking/list";
+    var data_info2=[[]];
+    //获取标注点信息框信息
+    $.post(url,function (data) {
+        //获取了后台数据 数据data中有经度和纬度 地址信息 停车场ID 停车场名 预约状态 车位数 剩余车位 单价
+        //
+        for (var i =0 ;i<data.length; i++){
+            data_info2[i][0]= data[i].longitude;
+            data_info2[i][1]= data[i].latitude;
+            data_info2[i][2] = " <span>车位总数："+ data[i].parkingCarportSize+" </span> <br/>"
+                         +"<span>剩余车位数量："+data[i].parkingFreeCarport+"</span> <br/>"
+                         +"<span>每小时停车单价："+data[i].parkingPrice+"</span> <br/>"
+                         +"<button onclick='orderShow("+ data[i].parkingId+")'>预约</button>"
+             ;
+            data_info2[i][3]= data.parkingName;
+        }
+
+    });
 
     //创建多个标注的检索信息窗口对象（从后台获取信息）
-    var data_info = [[120.161952, 30.328663,"地址：1<button href='#' style=''>预约</button>"],
-        [120.151953, 30.328661,"地址：2"],
-        [120.161952, 30.318660,"地址：2"]
-    ];
+    // var data_info = [[120.161952, 30.328663,"地址：1<button href='#' style=''>预约</button>"],
+    //     [120.151953, 30.328661,"地址：2"],
+    //     [120.161952, 30.318660,"地址：2"]
+    // ];
     for(var i=0;i<data_info.length;i++){
         var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
         var content = data_info[i][2];
