@@ -47,6 +47,27 @@
 		where plate_id = #{plateId}
 	</update>
 
+	<select id="query" parameterType="Map" resultMap="BaseResultMap" >
+		select 	<include refid="base_select"/>
+		from plate
+		<where>
+			<trim suffixOverrides="and">
+				<if test="userId != null and userId != ''">
+					user_id = #{userId} and
+				</if>
+				<if test="plateId!= null and plateId != ''">
+					plate_id = #{plateId} and
+				</if>
+				<if test="plateCode != null and plateCode != ''">
+					plate_code = #{plateCode} and
+				</if>
+				<if test="plateStatus != null and plateStatus != ''">
+					plate_status = #{plateStatus} and
+				</if>
+			</trim>
+		</where>
+
+	</select>
 
 </mapper>
  

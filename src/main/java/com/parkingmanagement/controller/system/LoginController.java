@@ -44,10 +44,9 @@ public class LoginController {
     }
 
     @RequestMapping("/logOut")
-    public String logOut() {
+    public void logOut() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "/base/login";
     }
 
 

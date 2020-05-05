@@ -27,6 +27,10 @@ public class ParkingLogController {
     public String toParking(){
         return "/base/admin/parkingLog.html";
     }
+    @RequestMapping(value = "/toezStop")
+    public String toezStop(){
+        return "/base/user/ezStop.html";
+    }
 
 
     @ResponseBody

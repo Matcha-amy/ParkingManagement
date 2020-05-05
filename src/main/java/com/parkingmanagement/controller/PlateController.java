@@ -15,12 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user/pleate")
+@RequestMapping("/user/plate")
 public class PlateController {
 
     @Autowired
     private PlateService pleateService;
 
+    @RequestMapping(value = "/toPlate")
+    public String toPlate(){
+        return "/base/user/plate.html";
+    }
 
     //车牌主页
     @RequiresRoles({"user"})

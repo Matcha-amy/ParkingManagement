@@ -54,7 +54,7 @@ public class PlateServiceImpl implements PlateService {
     @Override
     public BaseResult addPlate(Plate plate) {
         BaseResult result = new BaseResult();
-        if (plate==null ||plate.getPlateId()==null){
+        if (plate==null ||plate.getPlateCode()==null){
             return result.setMsg("没有选中车牌或该车牌无效");
         }
         String userName=(String) SecurityUtils.getSubject().getPrincipal();

@@ -88,13 +88,11 @@
                 </a>
 
                 <div class="user-menu dropdown-menu">
-                    <a class="nav-link" href="../base/index.html"><i class="fa fa-user"></i>登出</a>
+                    <a class="nav-link" href="javascript:location.reload();" onclick="logOut()"><i class="fa fa-user"></i>登出</a>
 
                     <a class="nav-link" href="#"><i class="fa fa-user"></i>消息<span class="count">13</span></a>
 
                     <a class="nav-link" href="#"><i class="fa fa-cog"></i>设置</a>
-
-                    <a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
                 </div>
             </div>
 
@@ -118,3 +116,12 @@
 
         </div>
     </div>
+    <script>
+        function logOut() {
+            $.ajax({
+                url: '/login/logOut',
+                type: "GET",
+                async:false
+            })
+        }
+    </script>

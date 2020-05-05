@@ -86,7 +86,7 @@
                     <img class="user-avatar rounded-circle" src="../../../../../../../moban4451/images/admin.jpg">
                 </a>
                 <div class="user-menu dropdown-menu">
-                    <a class="nav-link" href="#"><i class="fa fa-user"></i> My Profile</a>
+                    <a class="nav-link" href="javascript:location.reload();" onclick="logOut()"><i class="fa fa-user"></i>登出</a>
 
                     <a class="nav-link" href="#"><i class="fa fa-user"></i> Notifications <span class="count">13</span></a>
 
@@ -118,3 +118,12 @@
 
         </div>
     </div>
+    <script>
+        function logOut() {
+            $.ajax({
+                url: '/login/logOut',
+                type: "GET",
+                async:false
+            })
+        }
+    </script>
