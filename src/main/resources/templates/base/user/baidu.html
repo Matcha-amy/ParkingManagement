@@ -56,23 +56,27 @@
     //添加控件和比例尺
     map.addControl(top_left_control);
     map.addControl(top_left_navigation);
-    var url="http://localhost:8080/admin/parking/list";
-    var data_info2=[[]];
+    var url="/admin/parking/list";
+    var data_info = new Array();
     //获取标注点信息框信息
-    $.post(url,function (data) {
-        //获取了后台数据 数据data中有经度和纬度 地址信息 停车场ID 停车场名 预约状态 车位数 剩余车位 单价
-        //
-        for (var i =0 ;i<data.length; i++){
-            data_info2[i][0]= data[i].longitude;
-            data_info2[i][1]= data[i].latitude;
-            data_info2[i][2] = " <span>车位总数："+ data[i].parkingCarportSize+" </span> <br/>"
-                         +"<span>剩余车位数量："+data[i].parkingFreeCarport+"</span> <br/>"
-                         +"<span>每小时停车单价："+data[i].parkingPrice+"</span> <br/>"
-                         +"<button onclick='orderShow("+ data[i].parkingId+")'>预约</button>"
-             ;
-            data_info2[i][3]= data.parkingName;
+    $.ajax({
+        url: url,
+        cache: false,
+        type: "POST",
+        async:false,
+        success: function(data){
+            //获取了后台数据 数据data中有经度和纬度 地址信息 停车场ID 停车场名 预约状态 车位数 剩余车位 单价
+            for (var i =0 ;i<data.length; i++){
+                data_info[i] = new Array();
+                data_info[i][0]= data[i].longitude;
+                data_info[i][1]= data[i].latitude;
+                data_info[i][2] = " <span>车位总数："+ data[i].parkingCarportSize+" </span> <br/>"
+                    +"<span>剩余车位数量："+data[i].parkingFreeCarport+"</span> <br/>"
+                    +"<span>每小时停车单价："+data[i].parkingPrice+"</span> <br/>"
+                    +"<button onclick='orderShow("+ data[i].parkingId+")'>预约</button>";
+                data_info[i][3]= data[i].parkingName;
+            }
         }
-
     });
 
     //创建多个标注的检索信息窗口对象（从后台获取信息）
