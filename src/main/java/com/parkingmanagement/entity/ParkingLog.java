@@ -24,6 +24,7 @@ public class ParkingLog implements Serializable {
     private Long parkingLogStartTime;// 开始停车时间
     private Long parkingLogEndTime;// 结束停车时间
     private Double parkingLogPayment;//  费用
+
 }
 
 
