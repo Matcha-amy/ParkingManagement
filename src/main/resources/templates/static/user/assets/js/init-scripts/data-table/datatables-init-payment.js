@@ -34,25 +34,21 @@
             }
         },
         ajax: {
-            url: "/user/plate/list",
+            url: "/user/payment/list",
             dataSrc: function (data) {
                 return data;
             }
         },
         columns: [
             {
-                'data': 'plateCode',
+                'data': 'paymentMoney',
                 sortable: true
             },
             {
-            "data":null,"render":function (data,type,row, meta) {
-                    console.log(row);
+                'data': 'paymentTime',
+                sortable: true
+            },
 
-                    var methodType = "update";
-                    var html="<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModalCenter' onclick='showDiv("+JSON.stringify(row)+","+JSON.stringify(methodType)+")'>修改</button>"
-                    return html;
-                }
-            }
 
         ]
     });
