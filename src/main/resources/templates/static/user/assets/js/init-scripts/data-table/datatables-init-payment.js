@@ -34,7 +34,7 @@
             }
         },
         ajax: {
-            url: "/user/payment/list",
+            url: "/base/payment/list",
             dataSrc: function (data) {
                 return data;
             }
@@ -47,9 +47,7 @@
             {
                 'data': 'paymentTime',
                 sortable: true
-            },
-
-
+            }
         ]
     });
 

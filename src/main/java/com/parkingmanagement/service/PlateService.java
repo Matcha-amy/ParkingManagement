@@ -12,4 +12,6 @@ public interface PlateService {
 
 
     BaseResult addPlate(Plate plate);
+
+    List<Plate> getUserPlate(String userName);
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -82,6 +83,20 @@ public class PlateController {
             baseResult.setMsg("删除车牌信息失败，请重新删除");
         }
         return baseResult.setMsg("删除车牌成功");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getUserPlate",method = RequestMethod.GET)
+    public  List<Plate> getUserPlate(){
+        List<Plate> plates   = new ArrayList<>();
+        try{
+            String userName=(String) SecurityUtils.getSubject().getPrincipal();
+             plates = pleateService.getUserPlate(userName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return plates;
+        }
+        return plates;
     }
 
 }

@@ -8,6 +8,7 @@ import com.parkingmanagement.service.PlateService;
 import com.parkingmanagement.utils.BaseResult;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -62,12 +63,21 @@ public class PlateServiceImpl implements PlateService {
         HashMap<String,Object> queryMap = new HashMap<>();
         queryMap.put("plateCode",plate.getPlateCode());
         queryMap.put("userId",user.getUserId());
-        Plate dbPlate =  plateDao.query(queryMap);
-        if (dbPlate !=null){
+        List<Plate> plateList = plateDao.query(queryMap);
+        if (!plateList.isEmpty()){
             return result.setMsg("已添加该车牌，不能重复添加");
         }
         plate.setUserId(user.getUserId());
         plateDao.save(plate);
         return result.setStatus(true).setMsg("添加车牌成功");
+    }
+
+    @Override
+    public List<Plate> getUserPlate(String userName) {
+        User user = userDao.getUserByUsername(userName);
+        HashMap<String,Object> queryMap  = new HashMap<>();
+        queryMap.put("userId",user.getUserId());
+        List<Plate> plateList = plateDao.query(queryMap);
+        return plateList;
     }
 }

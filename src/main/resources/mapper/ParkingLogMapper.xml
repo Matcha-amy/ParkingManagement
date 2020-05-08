@@ -13,7 +13,7 @@
 	</resultMap>
 
 	<sql id="base_select">
-		parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time,parking_log_end_time,parking_log_payment
+		parking_log_id,	parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time,parking_log_end_time,parking_log_payment
 	</sql>
 
 	<select id="getList" resultMap="BaseResultMap" parameterType="Map">

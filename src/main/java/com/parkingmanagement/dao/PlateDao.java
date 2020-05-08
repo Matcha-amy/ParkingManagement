@@ -15,7 +15,7 @@ public interface PlateDao {
 
     void updatePlate(Plate plate);
 
-    Plate query(HashMap<String, Object> queryMap);
+    List<Plate> query(HashMap<String, Object> queryMap);
 
     void save(Plate plate);
 }

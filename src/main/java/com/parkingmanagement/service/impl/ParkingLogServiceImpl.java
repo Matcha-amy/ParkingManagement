@@ -85,12 +85,12 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         parkingLog.setParkingLogParkingId(parking.getParkingId());
         HashMap<String,Object> plateQuery = new HashMap<>();
         plateQuery.put("plateCode",parkingLogVO.getPlateCode());
-        Plate plate = plateDao.query(plateQuery);
+        List<Plate> plateList = plateDao.query(plateQuery);
         if (parking == null){
             throw new RuntimeException("车牌信息错误");
         }
-        parkingLog.setParkingLogPlateId(plate.getPlateId());
-        parkingLog.setParkingLogUserId(plate.getUserId());
+        parkingLog.setParkingLogPlateId(plateList.get(0).getPlateId());
+        parkingLog.setParkingLogUserId(plateList.get(0).getUserId());
         Date startDate = new Date(parkingLogVO.getParkingLogStartTime());
         parkingLog.setParkingLogStartTime(startDate.getTime());
         if (parkingLogVO.getParkingLogEndTime() != null){
@@ -111,12 +111,17 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         User user = userDao.getUserById(plate.getUserId());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String startTime = simpleDateFormat.format(parkingLog.getParkingLogStartTime());
-        String endTime = simpleDateFormat.format(parkingLog.getParkingLogEndTime());
+        if(parkingLog.getParkingLogEndTime() !=0){
+            String endTime = simpleDateFormat.format(parkingLog.getParkingLogEndTime());
+            parkingLogVO.setParkingLogEndTime(endTime);
+        }else {
+            parkingLogVO.setParkingLogEndTime("-");
+
+        }
         parkingLogVO.setUsername(user.getUsername());
         parkingLogVO.setPlateCode(plate.getPlateCode());
         parkingLogVO.setParkingName(parking.getParkingName());
         parkingLogVO.setParkingLogStartTime(startTime);
-        parkingLogVO.setParkingLogEndTime(endTime);
         parkingLogVO.setParkingLogPayment(parkingLog.getParkingLogPayment());
         return parkingLogVO;
 

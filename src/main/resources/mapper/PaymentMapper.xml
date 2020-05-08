@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.parkingmanagement.dao.PaymentDao">
+	<resultMap id="BaseResultMap" type="com.parkingmanagement.entity.PaymentLog" >
+		<id column="payment_id" property="paymentId" />
+		<result column="payment_time" property="paymentTime"  />
+		<result column="payment_money" property="paymentMoney"  />
+		<result column="payment_user_id" property="paymentUserId"  />
+
+	</resultMap>
+
+	<sql id="base_select">
+		payment_id,payment_time,payment_money,payment_user_id
+</sql>
+
+	<select id="getList" resultMap="BaseResultMap" parameterType="Integer">
+		select <include refid="base_select"/>
+		from payment_log
+		<where >
+			<if test="paymentUserId != null and paymentUserId != ''">
+				payment_user_id = #{paymentUserId}
+			</if>
+		</where>
+	</select>
+
+
+
+
+</mapper>
+ 
+

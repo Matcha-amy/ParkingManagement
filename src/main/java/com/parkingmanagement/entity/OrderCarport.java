@@ -21,6 +21,8 @@ public class OrderCarport implements Serializable {
 
     private Integer orderCarportCarportId;
 
+    private Integer orderPlateId; //车牌id
+
     private Long orderCarportTime;
 
     private Integer orderCarportStatus = 0;  // 0为 预约中   1为预约正常结束  2为预约超时

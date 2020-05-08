@@ -36,7 +36,7 @@
         ajax: {
             url: "/base/parkingLog/list",
             dataSrc: function (data) {
-                return data.rows;
+                return data;
             }
         },
         columns: [
@@ -46,7 +46,7 @@
             },
             {
                 'data': 'plateCode',
-                sortable: true,
+                sortable: true
             },
             {
                 'data': 'parkingName',
@@ -62,7 +62,7 @@
                 sortable: true
             },
             {
-                'data': 'parkingPayment',
+                'data': 'parkingLogPayment',
                 sortable: true
             },
         ]

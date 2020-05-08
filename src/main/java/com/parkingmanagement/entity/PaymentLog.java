@@ -16,8 +16,8 @@ public class PaymentLog implements Serializable {
     private static final long serialVersionUID = 3779479235003204574L;
 
     private Integer paymentId;//
-    private Integer paymentTime;//
-    private Integer paymentMoney;//
+    private Long paymentTime;//
+    private Double paymentMoney;//
     private Integer paymentUserId;//
 
 }
