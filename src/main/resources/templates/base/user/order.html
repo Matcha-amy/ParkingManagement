@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="../../static/user/vendors/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="../../static/user/vendors/jqvmap/dist/jqvmap.min.css">
     <link rel="stylesheet" href="../../static/user/assets/css/style.css">
+    <link rel="stylesheet" href="../../static/user/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="../../static/user/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
@@ -99,31 +101,179 @@
 
 
 </div><!-- /#right-panel -->
+<!--    修改弹窗-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="showDivusername">用户名</label>
+                        <input type="text" class="form-control" id="showDivusername">
+                    </div>
+                    <div class="form-group">
+                        <label for="showDivplateCode">车牌号</label>
+                        <input type="text" class="form-control" id="showDivplateCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="showDivparkingName">停车场名</label>
+                        <input type="text" class="form-control" id="showDivparkingName">
+                    </div>
+                    <div class="form-group">
+                        <label for="showDivCarportNum">车位编号</label>
+                        <input class="form-control" type="text" id="showDivCarportNum">
+                    </div>
+                    <div>
+                        <label for="showDivorderTime">预约时间</label>
+                        <input type="text" class="form-control" id="showDivorderTime">
+                    </div>
+                    <div>
+                        <label for="showDivorderStatus">预约状态</label>
+                        <select class="form-control" id="showDivorderStatus" name="status">
+                            <option value="0">预约中</option>
+                            <option value="1">预约完成</option>
+                            <option value="2">预约失败</option>
+                        </select>
+                    </div>
+                    <input type="text" style="display: none" id="showDivuserId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Right Panel -->
 
-
+<script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
 <script src="../../static/user/vendors/jquery/dist/jquery.min.js"></script>
 <script src="../../static/user/vendors/popper/popper.min.js"></script>
 <script src="../../static/user/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="../../static/user/assets/js/main.js"></script>
 
-<script src="../../static/user/assets/js/init-scripts/vector-map/vector.init.js"></script>
+<script src="../../static/user/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../../static/user/vendors/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../static/user/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../static/user/vendors/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+<script src="../../static/user/vendors/jszip/dist/jszip.min.js"></script>
+<script src="../../static/user/vendors/pdfmake/build/pdfmake.min.js"></script>
+<script src="../../static/user/vendors/pdfmake/build/vfs_fonts.js"></script>
+<script src="../../static/user/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+<script src="../../static/user/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+<script src="../../static/user/vendors/datatables.net-buttons/js/buttons.colVis.min.js"></script>
 <script src="../../static/user/assets/js/init-scripts/data-table/datatables-init-order.js"></script>
 
-<script src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
 <script>
     $("#navbar").load("../user/navbar.html");
     $("#header").load("../user/base_right_header.html");
 </script>
+
 <script>
-    function orderShow(parkingId){
-        alert(parkingId);
-        $("#showDivUsername").attr({disabled: "true"});
+    //保存修改和添加
+    function updateSave() {
+        var userId = $("#showDivuserId").val();
+        //修改
+        if(userId != null){
+            //保存数据
+            //获取值
+            var showDivusername = $("#showDivusername").val();
+            var plateCode= $("#showDivplateCode").val();
+            var parkingName = $("#showDivparkingName").val();
+            var CarportNum = $("#showDivCarportNum").val();
+            var orderTime = $("#showDivorderTime").val();
+            var orderStatus = $("#showDivorderStatus").val();
+            //发送请求
+            var url="/user/parking/updateParking";
+            $.post(url,{userId:userId,orderStatus:orderStatus},
+                function (data) {
+                    //回调方法
+                    if(data.status){
+                        //修改成功
+                        alert("修改成功");
+                        //刷新页面
+                        location.reload();
+                    }else {
+                        alert("修改失败")
+                    }
+                },"json"
+            );
+        }else{
+            //添加获取值
+            var username =   $("#showDivusername").val();
+            var parkingName =  $("#showDivparkingName").val();
+            var carportNum =  $("#showDivCarportNum").val();
+            var orderCarportTime =  $("#showDivorderTime").val();
+            var orderCarportStatus = $("#showDivorderStatus").val();
+            //发送请求
+            var url="/base/order/add";
+            $.post(url,{username:username,parkingName:parkingName,carportNum:carportNum,orderCarportTime:orderCarportTime,orderCarportStatus:orderCarportStatus},
+                function (data) {
+                    //回调方法
+                    if(data.status){
+                        //添加成功
+                        alert("添加成功");
+                        //刷新页面
+                        location.reload();
+                    }else {
+                        alert(data.msg)
+                    }
+                },"json"
+            );
+        }
+
+
+    }
+    // 打开弹窗
+    function showDiv( row , methodType )  {
+        $("#showDivusername").val("");
+        $("#showDivplateCode").val("");
+        $("#showDivparkingName").val("");
+        $("#showDivCarportNum").val("");
+        $("#showDivorderTime").val("");
+        $("#showDivorderStatus").val("");
+
+        $("#showDivusername").removeAttr("disabled");
+        $("#showDivplateCode").removeAttr("disabled");
+        $("#showDivparkingName").removeAttr("disabled");
+        $("#showDivCarportNum").removeAttr("disabled");
+        $("#showDivorderTime").removeAttr("disabled");
+        $("#showDivorderStatus").removeAttr("disabled");
+        if(methodType=="add"){
+            //添加
+            $("#exampleModalCenterTitle").text("添加预约");
+
+        }else {
+            //修改
+            $("#showDivusername").val(row.username);
+            $("#showDivplateCode").val(row.plateCode);
+            $("#showDivparkingName").val(row.parkingName);
+            $("#showDivCarportNum").val(row.carportNum);
+            $("#showDivorderTime").val(row.orderCarportTime);
+            $("#showDivorderStatus").val(row.orderCarportStatus);
+            //禁止修改除状态之外的数据
+            $("#showDivusername").attr({disabled:"true"});
+            $("#showDivplateCode").attr({disabled:"true"});
+            $("#showDivparkingName").attr({disabled:"true"});
+            $("#showDivCarportNum").attr({disabled:"true"});
+            $("#showDivorderTime").attr({disabled:"true"});
+            var status = row.orderCarportStatus;
+            if(status != 0){
+                $("#showDivorderStatus").attr({disabled:"true"});
+            }
+            $("#exampleModalCenterTitle").text("修改");
+        }
+        $("#updateOrAddDiv").show();
     }
 </script>
-
-
 </body>
 
 </html>

@@ -165,7 +165,6 @@
     $("#navbar").load("../../base/admin/navbar.html");
     $("#header").load("../../base/admin/base_right_header.html");
 </script>
-
 <script>
     //保存修改和添加
     function updateSave() {
@@ -197,11 +196,11 @@
             );
         }else{
             //添加获取值
-           var username =   $("#showDivusername").val();
-           var parkingName =  $("#showDivparkingName").val();
-           var carportNum =  $("#showDivCarportNum").val();
-           var orderCarportTime =  $("#showDivorderTime").val();
-           var orderCarportStatus = $("#showDivorderStatus").val();
+            var username =   $("#showDivusername").val();
+            var parkingName =  $("#showDivparkingName").val();
+            var carportNum =  $("#showDivCarportNum").val();
+            var orderCarportTime =  $("#showDivorderTime").val();
+            var orderCarportStatus = $("#showDivorderStatus").val();
             //发送请求
             var url="/base/order/add";
             $.post(url,{username:username,parkingName:parkingName,carportNum:carportNum,orderCarportTime:orderCarportTime,orderCarportStatus:orderCarportStatus},
@@ -223,7 +222,7 @@
     }
     // 打开弹窗
     function showDiv( row , methodType )  {
-       $("#showDivusername").val("");
+        $("#showDivusername").val("");
         $("#showDivplateCode").val("");
         $("#showDivparkingName").val("");
         $("#showDivCarportNum").val("");
@@ -263,6 +262,7 @@
         $("#updateOrAddDiv").show();
     }
 </script>
+
 </body>
 
 </html>

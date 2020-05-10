@@ -54,6 +54,10 @@
 
             },
             {
+                'data': 'carportNum',
+                sortable: true
+            },
+            {
                 'data': 'parkingLogStartTime' ,
                 sortable: true
             },
@@ -65,6 +69,14 @@
                 'data': 'parkingLogPayment',
                 sortable: true
             },
+            {
+                "data":null,"render":function (data,type,row, meta) {
+
+                    var methodType = "update";
+                    var html="<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModalCenter' onclick='showDiv("+JSON.stringify(row)+","+JSON.stringify(methodType)+")'>修改</button>"
+                    return html;
+                }
+            }
         ]
     });
 

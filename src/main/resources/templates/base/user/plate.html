@@ -175,7 +175,7 @@
             var plateCode= $("#showDivplateCode").val();
             //发送请求
             var url="/user/plate/addPlate";
-            $.post(url,{username:username,plateCode:plateCode},
+            $.post(url,{plateCode:plateCode},
                 function (data) {
                     //回调方法
                     if(data.status){
