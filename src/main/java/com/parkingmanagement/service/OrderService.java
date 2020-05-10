@@ -12,4 +12,6 @@ public interface OrderService {
     BaseResult addOrder(OrderVO orderVO) throws ParseException;
 
     BaseResult updateOrder(OrderVO orderVO) throws ParseException;
+
+    List<OrderVO> getUserList(String userName);
 }

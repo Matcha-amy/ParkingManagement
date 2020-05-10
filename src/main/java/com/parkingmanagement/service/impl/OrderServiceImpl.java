@@ -2,6 +2,7 @@ package com.parkingmanagement.service.impl;
 
 import com.parkingmanagement.dao.*;
 import com.parkingmanagement.entity.*;
+import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.entity.vo.OrderVO;
 import com.parkingmanagement.service.OrderService;
 import com.parkingmanagement.utils.BaseResult;
@@ -70,6 +71,17 @@ public class OrderServiceImpl implements OrderService {
             carportDao.updateCarport(carport);
         }
         return result.setStatus(true);
+    }
+
+    @Override
+    public List<OrderVO> getUserList(String userName) {
+        User userByUsername = userDao.getUserByUsername(userName);
+        List<OrderVO> orderVOList =orderCarportDao.getVOList(userByUsername.getUserId());
+        for (OrderVO orderVO : orderVOList) {
+            String time = TimeUtils.timeToStr(new Long(orderVO.getOrderCarportTime()));
+            orderVO.setOrderCarportTime(time);
+        }
+        return orderVOList;
     }
 
 

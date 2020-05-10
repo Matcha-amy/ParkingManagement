@@ -3,6 +3,7 @@ package com.parkingmanagement.controller;
 import com.parkingmanagement.entity.vo.OrderVO;
 import com.parkingmanagement.service.OrderService;
 import com.parkingmanagement.utils.BaseResult;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -72,5 +73,19 @@ public class OrderController {
         return baseResult;
     }
 
+
+    @ResponseBody
+    @RequestMapping("/userList")
+    public List<OrderVO> getUserList(){
+        List<OrderVO> orderVOList = new ArrayList<>();
+        try {
+            String userName=(String) SecurityUtils.getSubject().getPrincipal();
+            orderVOList = orderService.getUserList(userName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return orderVOList;
+    }
 
 }
