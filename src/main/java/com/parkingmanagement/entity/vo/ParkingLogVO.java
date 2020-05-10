@@ -15,6 +15,7 @@ public class ParkingLogVO implements Serializable {
     private String username; //用户名
     private String plateCode; //车牌号
     private String parkingName; //停车场名
+    private String carportNum;// 车位编号
     private String parkingLogStartTime;
     private String parkingLogEndTime;
     private Double parkingLogPayment;

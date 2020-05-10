@@ -2,10 +2,8 @@ package com.parkingmanagement.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.parkingmanagement.dao.ParkingDao;
-import com.parkingmanagement.dao.ParkingLogDao;
-import com.parkingmanagement.dao.PlateDao;
-import com.parkingmanagement.dao.UserDao;
+import com.parkingmanagement.dao.*;
+import com.parkingmanagement.entity.Carport;
 import com.parkingmanagement.entity.Parking;
 import com.parkingmanagement.entity.ParkingLog;
 import com.parkingmanagement.entity.Plate;
@@ -14,6 +12,7 @@ import com.parkingmanagement.entity.vo.ListQuery;
 import com.parkingmanagement.entity.vo.ParkingLogVO;
 import com.parkingmanagement.service.ParkingLogService;
 import com.parkingmanagement.utils.BaseResult;
+import com.parkingmanagement.utils.Constant;
 import com.parkingmanagement.utils.MathUtils;
 import com.parkingmanagement.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,9 @@ public class ParkingLogServiceImpl implements ParkingLogService {
     private PlateDao plateDao;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private CarportDao carportDao;
+
     @Override
     public List<ParkingLogVO> getList() {
         List<ParkingLog>  parkingLogList= parkingLogDao.getList(new HashMap<>());
@@ -56,6 +58,11 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         }
         ParkingLog parkingLog = voToParking(parkingLogVO);
         parkingLogDao.save(parkingLog);
+        //同时更改车位
+        Carport updateCarport = new Carport();
+        updateCarport.setCarportId(parkingLog.getParkingLogCarportId());
+        updateCarport.setCarportStatus(Constant.CARPORT_STATUS_USEING);
+        carportDao.updateCarport(updateCarport);
         return baseResult.setStatus(true).setMsg("添加成功");
     }
 
@@ -73,6 +80,11 @@ public class ParkingLogServiceImpl implements ParkingLogService {
             userDao.update(user);
         }
         parkingLogDao.updateParking(parkingLog);
+        //同时更改车位
+        Carport updateCarport = new Carport();
+        updateCarport.setCarportId(parkingLog.getParkingLogCarportId());
+        updateCarport.setCarportStatus(Constant.CARPORT_STATUS_FREE);
+        carportDao.updateCarport(updateCarport);
         return result.setStatus(true).setMsg("修改成功");
     }
 
@@ -91,6 +103,12 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         if (parking == null){
             throw new RuntimeException("车牌信息错误");
         }
+        //车位信息
+        HashMap<String,Object> queryMap = new HashMap<>();
+        queryMap.put("parkingId",parking.getParkingId());
+        queryMap.put("carportNum",parkingLogVO.getCarportNum());
+        List<Carport> query = carportDao.query(queryMap);
+        parkingLog.setParkingLogCarportId(query.get(0).getCarportId());
         parkingLog.setParkingLogPlateId(plateList.get(0).getPlateId());
         parkingLog.setParkingLogUserId(plateList.get(0).getUserId());
         Date startDate = new Date(parkingLogVO.getParkingLogStartTime());
@@ -111,6 +129,7 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         Parking parking = parkingDao.getById(parkingLog.getParkingLogParkingId());
         Plate plate = plateDao.getById(parkingLog.getParkingLogPlateId());
         User user = userDao.getUserById(plate.getUserId());
+        Carport carport = carportDao.getById(parkingLog.getParkingLogCarportId());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String startTime = simpleDateFormat.format(parkingLog.getParkingLogStartTime());
         if(parkingLog.getParkingLogEndTime() !=0){
@@ -125,6 +144,7 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         parkingLogVO.setParkingName(parking.getParkingName());
         parkingLogVO.setParkingLogStartTime(startTime);
         parkingLogVO.setParkingLogPayment(parkingLog.getParkingLogPayment());
+        parkingLogVO.setCarportNum(carport.getCarportNum());
         return parkingLogVO;
 
     }

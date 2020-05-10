@@ -83,8 +83,8 @@
 
         <div class="col-sm-5">
             <div class="user-area dropdown float-right">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="user-avatar rounded-circle" src="../../../../../../../moban4451/images/admin.jpg"">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="userNme">
+
                 </a>
 
                 <div class="user-menu dropdown-menu">
@@ -117,6 +117,11 @@
         </div>
     </div>
     <script>
+        $(function () {
+            $.post("/base/getName",function (data) {
+                $("#userNme").text(data);
+            })
+        });
         function logOut() {
             $.ajax({
                 url: '/login/logOut',
