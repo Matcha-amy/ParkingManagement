@@ -46,10 +46,9 @@
             },
             {
             "data":null,"render":function (data,type,row, meta) {
-                    console.log(row);
-
                     var methodType = "update";
                     var html="<button type='button' class='btn btn-primary' data-toggle='modal' data-target='#exampleModalCenter' onclick='showDiv("+JSON.stringify(row)+","+JSON.stringify(methodType)+")'>修改</button>"
+                     html+="&nbsp;&nbsp;&nbsp;<button type='button' class='btn btn-primary' data-toggle='modal' onclick='deleDiv("+JSON.stringify(row)+")'>删除</button>";
                     return html;
                 }
             }

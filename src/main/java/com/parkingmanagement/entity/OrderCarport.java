@@ -19,7 +19,7 @@ public class OrderCarport implements Serializable {
 
     private Integer orderCarportUserId;
 
-    private Integer orderCarportCarportId;
+    private Integer orderCarportCarportId; //车位id
 
     private Integer orderPlateId; //车牌id
 

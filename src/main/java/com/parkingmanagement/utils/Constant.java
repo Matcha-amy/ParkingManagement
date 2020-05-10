@@ -16,4 +16,10 @@ public class Constant {
     //违约
     public static final Integer ORDER_STATUS_FAILED=2;
 
+    //车位状态
+    public static final Integer CARPORT_STATUS_FREE=0;
+    public static final Integer CARPORT_STATUS_ORDER=2;
+    public static final Integer CARPORT_STATUS_USEING=1;
+
+
 }

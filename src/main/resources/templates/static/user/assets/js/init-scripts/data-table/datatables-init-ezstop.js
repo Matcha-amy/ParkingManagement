@@ -34,7 +34,7 @@
             }
         },
         ajax: {
-            url: "/base/parkingLog/list",
+            url: "/base/parkingLog/userList",
             dataSrc: function (data) {
                 return data;
             }

@@ -5,9 +5,12 @@ import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.service.UserService;
 import com.parkingmanagement.utils.BaseResult;
 import com.parkingmanagement.utils.MD5Utils;
+import com.parkingmanagement.utils.TimeUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Date;
 
 @SpringBootTest
 class ParkingmanagementApplicationTests {
@@ -16,11 +19,12 @@ class ParkingmanagementApplicationTests {
 
 
     @Test
-    void contextLoads() {
-        OrderCarport orderCarport = new OrderCarport();
-        orderCarport.setOrderCarportUserId(1).setOrderCarportCarportId(1);
-        BaseResult result = userService.orderCarport(orderCarport);
-        System.out.println(result);
+    void contextLoads() throws InterruptedException {
+        Long startTime = new Date().getTime();
+        Thread.sleep(2000);
+        Long endTime = new Date().getTime();
+        Double distanceTime = TimeUtils.getStopCarTime(startTime, endTime);
+        System.out.println(distanceTime);
     }
 
 }

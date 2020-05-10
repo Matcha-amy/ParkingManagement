@@ -11,6 +11,8 @@ public interface ParkingLogService {
 
     List<ParkingLogVO> getList();
 
+    List<ParkingLogVO> getList(String userName);
+
     BaseResult addParkingLog(ParkingLogVO parkingLogVO);
 
     BaseResult updateParkingLog(ParkingLogVO parkingLogVO);

@@ -58,5 +58,19 @@ public class OrderController {
     }
 
 
+    //预约完成
+    @ResponseBody
+    @RequestMapping("/update")
+    public BaseResult updateOrder(OrderVO orderVO){
+        BaseResult baseResult = new BaseResult();
+        try {
+            baseResult = orderService.updateOrder(orderVO);
+        }catch (Exception e){
+            e.printStackTrace();
+            return baseResult.setMsg("完成预约失败");
+        }
+        return baseResult;
+    }
+
 
 }

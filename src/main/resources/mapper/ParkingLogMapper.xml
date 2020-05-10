@@ -6,6 +6,7 @@
 		<id column="parking_log_id" property="parkingLogId" />
 		<result column="parking_log_parking_id" property="parkingLogParkingId"  />
 		<result column="parking_log_plate_id" property="parkingLogPlateId"  />
+		<result column="parking_log_carport_id" property="parkingLogCarportId"  />
 		<result column="parking_log_user_id" property="parkingLogUserId"  />
 		<result column="parking_log_start_time" property="parkingLogStartTime"  />
 		<result column="parking_log_end_time" property="parkingLogEndTime"  />
@@ -13,7 +14,7 @@
 	</resultMap>
 
 	<sql id="base_select">
-		parking_log_id,	parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time,parking_log_end_time,parking_log_payment
+		parking_log_id,	parking_log_parking_id,parking_log_plate_id,parking_log_carport_id,parking_log_user_id,parking_log_start_time,parking_log_end_time,parking_log_payment
 	</sql>
 
 	<select id="getList" resultMap="BaseResultMap" parameterType="Map">
@@ -26,6 +27,9 @@
 				</if>
 				<if test="parkingLogPlateId != null and parkingLogPlateId != ''">
 					parking_log_plate_id = #{parkingLogPlateId} and
+				</if>
+				<if test="parkingLogCarportId != null and parkingLogCarportId != ''">
+					parking_log_carport_id = #{parkingLogCarportId} and
 				</if>
 				<if test="parkingLogUserId != null and parkingLogUserId != ''">
 					parking_log_user_id = #{parkingLogUserId} and
@@ -46,8 +50,8 @@
 
 
 	<insert id="save" parameterType="com.parkingmanagement.entity.ParkingLog"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
-		insert into parking_log(parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time)
-		values (#{parkingLogParkingId},#{parkingLogPlateId},#{parkingLogUserId},#{parkingLogStartTime})
+		insert into parking_log(parking_log_parking_id,parking_log_plate_id,parking_log_user_id,parking_log_start_time,parking_log_carport_id)
+		values (#{parkingLogParkingId},#{parkingLogPlateId},#{parkingLogUserId},#{parkingLogStartTime},#{parkingLogCarportId})
 	</insert>
 
 	<select id="getById" parameterType="Integer" resultMap="BaseResultMap">

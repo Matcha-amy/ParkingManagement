@@ -14,4 +14,6 @@ public interface CarportService {
     BaseResult updateCarport(Carport carport);
 
     BaseResult delCarport(Carport carport);
+
+    List<Carport> getCarportByParking(Integer parkingId);
 }

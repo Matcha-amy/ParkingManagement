@@ -19,6 +19,6 @@ public class OrderVO implements Serializable {
     private String parkingName;//
     private String carportNum;//车位编号
     private String orderCarportTime;//
-    private String orderCarportStatus;//
+    private Integer orderCarportStatus;//
     private Integer orderCarportId;
 }

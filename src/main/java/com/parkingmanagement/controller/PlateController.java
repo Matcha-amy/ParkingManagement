@@ -43,7 +43,7 @@ public class PlateController {
     }
 
     //修改
-    @RequiresRoles({"user","admin"})
+//    @RequiresRoles({"user","admin"})
     @ResponseBody
     @RequestMapping(value = "/updatePlate",method = RequestMethod.POST)
     public BaseResult updatePlate(Plate plate){

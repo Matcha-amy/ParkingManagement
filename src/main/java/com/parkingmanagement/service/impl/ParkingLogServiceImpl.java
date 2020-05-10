@@ -14,6 +14,7 @@ import com.parkingmanagement.entity.vo.ListQuery;
 import com.parkingmanagement.entity.vo.ParkingLogVO;
 import com.parkingmanagement.service.ParkingLogService;
 import com.parkingmanagement.utils.BaseResult;
+import com.parkingmanagement.utils.MathUtils;
 import com.parkingmanagement.utils.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,8 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         if (parkingLog.getParkingLogEndTime() !=null && parkingLog.getParkingLogPayment() != null){
             Double payment = parkingLog.getParkingLogPayment();
             User user = userDao.getUserById(parkingLog.getParkingLogUserId());
-            user.setBalance(user.getBalance()-payment);
+            Double stopCarTime = TimeUtils.getStopCarTime(parkingLog.getParkingLogStartTime(), parkingLog.getParkingLogEndTime());
+            user.setBalance(user.getBalance()-MathUtils.doubleMul(payment,stopCarTime));
             userDao.update(user);
         }
         parkingLogDao.updateParking(parkingLog);
@@ -125,5 +127,18 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         parkingLogVO.setParkingLogPayment(parkingLog.getParkingLogPayment());
         return parkingLogVO;
 
+    }
+    @Override
+    public List<ParkingLogVO> getList(String userName) {
+        User user = userDao.getUserByUsername(userName);
+        HashMap<String,Object> queryMap = new HashMap<>();
+        queryMap.put("parkingLogUserId",user.getUserId());
+        List<ParkingLog>  parkingLogList= parkingLogDao.getList(queryMap);
+        List<ParkingLogVO> parkingLogVOList = new ArrayList<>();
+        for (ParkingLog parkingLog : parkingLogList) {
+            ParkingLogVO parkingLogVO = parkingToVO(parkingLog);
+            parkingLogVOList.add(parkingLogVO);
+        }
+        return parkingLogVOList;
     }
 }

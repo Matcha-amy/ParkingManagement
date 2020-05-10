@@ -36,7 +36,6 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = (String)principals.getPrimaryPrincipal();
         HashMap<String,Object> queryMap = new HashMap<>();
@@ -55,7 +54,6 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
-        System.out.println("ShiroRealm.doGetAuthenticationInfo()");
         //获取用户的输入的账号.
         String username = (String)token.getPrincipal();
         if (StringUtils.isEmpty(username)){

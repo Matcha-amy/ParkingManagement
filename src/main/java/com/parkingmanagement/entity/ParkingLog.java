@@ -19,6 +19,7 @@ public class ParkingLog implements Serializable {
 
     private Integer parkingLogId;//
     private Integer parkingLogParkingId;// 停车场id
+    private Integer parkingLogCarportId; //车位id
     private Integer parkingLogPlateId;// 车牌id
     private Integer parkingLogUserId;// 用户id
     private Long parkingLogStartTime;// 开始停车时间
