@@ -74,7 +74,7 @@
 		select u.username username, pl.plate_code plateCode , c.carport_num carportNum ,p.parking_name parkingName
 		, o.orderCarport_time orderTime , o.orderCarport_status orderStatus, o.orderCarport_id orderCarportId
 		from ordercarport o  ,user u   , plate pl   ,carport c , parking p
-		where o.orderCarport_user_id = u.user_id and o.orderCarport_plate_id = pl.plate_code and u.user_id = pl.user_id and o.orderCarport_carport_id  = c.carport_id
+		where o.orderCarport_user_id = u.user_id and o.orderCarport_plate_id = pl.plate_id and u.user_id = pl.user_id and o.orderCarport_carport_id  = c.carport_id
 		and c.parking_id = p.parking_id
 		<if test="userId != null and userId != ''">
 			and  u.user_id = #{userId}

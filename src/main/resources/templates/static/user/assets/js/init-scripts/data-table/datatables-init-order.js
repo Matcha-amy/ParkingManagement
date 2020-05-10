@@ -38,7 +38,7 @@
         autoWidth: true,
         deferRender: true,
         ajax: {
-            url: "/base/order/list",
+            url: "/base/order/userList",
             dataSrc: function (data) {
                 return data;
             }

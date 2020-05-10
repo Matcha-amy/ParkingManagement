@@ -3,6 +3,7 @@ package com.parkingmanagement.dao;
 import com.parkingmanagement.entity.OrderCarport;
 import com.parkingmanagement.entity.vo.OrderVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface OrderCarportDao {
 
     void update(OrderCarport dbOrderCarport);
 
-    List<OrderVO> getVOList(Integer userId);
+    List<OrderVO> getVOList(@Param("userId") Integer userId);
 }
