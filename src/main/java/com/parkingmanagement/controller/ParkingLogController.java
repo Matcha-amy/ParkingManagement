@@ -6,7 +6,9 @@ import com.parkingmanagement.entity.vo.ListQuery;
 import com.parkingmanagement.entity.vo.ParkingLogVO;
 import com.parkingmanagement.service.ParkingLogService;
 import com.parkingmanagement.utils.BaseResult;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,5 +75,19 @@ public class ParkingLogController {
         }
         return result;
     }
+    @ResponseBody
+    @RequestMapping("/userList")
+    public List<ParkingLogVO> getUserList(){
+        List<ParkingLogVO> parkingLogList = new ArrayList<>();
+        String userName=(String) SecurityUtils.getSubject().getPrincipal();
+        try {
+            parkingLogList = parkingLogService.getList(userName);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return parkingLogList;
+    }
+
 
 }

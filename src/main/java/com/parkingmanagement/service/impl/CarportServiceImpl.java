@@ -7,9 +7,11 @@ import com.parkingmanagement.entity.Carport;
 import com.parkingmanagement.entity.vo.ListQuery;
 import com.parkingmanagement.service.CarportService;
 import com.parkingmanagement.utils.BaseResult;
+import com.parkingmanagement.utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -66,6 +68,15 @@ public class CarportServiceImpl implements CarportService {
         carport.setCarportStatus(3);
         carportDao.updateCarport(carport);
         return result.setStatus(true).setMsg("禁用车位成功");
+    }
+
+    @Override
+    public List<Carport> getCarportByParking(Integer parkingId) {
+        HashMap<String,Object> queryMap = new HashMap<>();
+        queryMap.put("carportStatus",Constant.CARPORT_STATUS_FREE);
+        queryMap.put("parkingId",parkingId);
+        List<Carport> carportList = carportDao.query(queryMap);
+        return carportList;
     }
 
 

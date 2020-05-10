@@ -84,4 +84,18 @@ public class CarportController {
         }
         return result;
     }
+
+    //获取该停车场的所有车位
+    @ResponseBody
+    @RequestMapping("/getCarportByParking")
+    public  List<Carport> getCarportByParking(Integer parkingId ){
+        List<Carport> carportList = new ArrayList<>();
+        try {
+            carportList = carportService.getCarportByParking(parkingId);
+        }catch (Exception e){
+            e.printStackTrace();
+            return carportList ;
+        }
+        return carportList;
+    }
 }

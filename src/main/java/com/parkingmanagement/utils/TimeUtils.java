@@ -1,5 +1,6 @@
 package com.parkingmanagement.utils;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,4 +35,12 @@ public class TimeUtils {
         return parse.getTime();
     }
 
+    public static Double getStopCarTime(Long startTime, Long endTime){
+        Long i =  endTime-startTime;
+        BigDecimal time =  new BigDecimal(new Double(i));
+        BigDecimal m =  new BigDecimal(3600);
+        BigDecimal divide = time.divide(m,2,BigDecimal.ROUND_HALF_UP);
+        double ceil = Math.ceil(divide.doubleValue());
+        return  ceil;
+    }
 }

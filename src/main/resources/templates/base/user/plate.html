@@ -106,7 +106,7 @@
                         <input class="form-control" type="text" id="showDivplateCode">
                     </div>
 
-                    <input type="text" style="display: none" id="showDivuserId">
+                    <input type="text" style="display: none" id="showDivPlateId">
                 </form>
             </div>
             <div class="modal-footer">
@@ -147,16 +147,16 @@
 <script>
     //保存修改和添加
     function updateSave() {
-        var parkingId = $("#showDivuserId").val();
+        var parkingId = $("#showDivPlateId").val();
         //修改
         if(parkingId != null && parkingId != ''){
             //保存数据
             //获取值
-            var username = $("#showDivusername").val();
+
             var plateCode= $("#showDivplateCode").val();
             //发送请求
             var url="/user/plate/updatePlate";
-            $.post(url,{username:username,plateCode:plateCode},
+            $.post(url,{plateId:parkingId,plateCode:plateCode},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -171,7 +171,7 @@
             );
         }else{
             //添加获取值
-            var username = $("#showDivusername").val();
+
             var plateCode= $("#showDivplateCode").val();
             //发送请求
             var url="/user/plate/addPlate";
@@ -194,23 +194,42 @@
     }
     // 打开弹窗
     function showDiv( row , methodType )  {
-        //$("#showDivusername").val("");
+
         $("#showDivplateCode").val("");
         if(methodType=="add"){
             //添加
             $("#exampleModalCenterTitle").text("添加车牌");
-            $("#showDivUsername").attr({disabled: "true"});
 
         }else {
             //修改
 
-            $("#showDivusername").val(row.username);
+
             $("#showDivplateCode").val(row.plateCode);
-            $("#showDivUsername").attr({disabled: "true"});
+            $("#showDivPlateId").val(row.plateId);
+
 
             $("#exampleModalCenterTitle").text("修改");
         }
         $("#updateOrAddDiv").show();
+    }
+
+
+    function deleDiv(row) {
+        var url="/user/plate/delPlate";
+        $.post(url,{plateId:row.plateId},
+            function (data) {
+                //回调方法
+                if(data.status){
+                    //修改成功
+                    alert(data.msg);
+                    //刷新页面
+                    location.reload();
+                }else {
+                    alert(data.msg)
+                }
+            },"json"
+        );
+
     }
 </script>
 </body>
