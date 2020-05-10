@@ -62,9 +62,11 @@
                                     <th>用户名</th>
                                     <th>车牌</th>
                                     <th>停车场名</th>
+                                    <th>车位编号</th>
                                     <th>开始停车时间</th>
                                     <th>结束停车时间</th>
                                     <th>费用</th>
+                                    <th>操作</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -81,6 +83,57 @@
 
 
 </div><!-- /#right-panel -->
+
+<!--    修改弹窗-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="showDivusername">用户名</label>
+                        <input type="text" class="form-control" id="showDivusername">
+                    </div>
+                    <div class="form-group">
+                        <label for="showDivplateCode">车牌号</label>
+                        <input type="text" class="form-control" id="showDivplateCode">
+                    </div>
+                    <div class="form-group">
+                        <label for="showDivparkingName">停车场名</label>
+                        <input type="text" class="form-control" id="showDivparkingName">
+                    </div>
+                    <div class="form-group">
+                        <label for="showDivCarportNum">车位编号</label>
+                        <input class="form-control" type="text" id="showDivCarportNum">
+                    </div>
+                    <div>
+                        <label for="showDivStartTime">停车开始时间</label>
+                        <input type="text" class="form-control" id="showDivStartTime">
+                    </div>
+                    <div>
+                        <label for="showDivEndTime">停车结束时间</label>
+                        <input type="text" class="form-control" id="showDivEndTime">
+                    </div>
+                    <div>
+                        <label for="showDivPayment">停车费用</label>
+                        <input type="text" class="form-control" id="showDivPayment">
+                    </div>
+                    <input type="text" style="display: none" id="showDivuserId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="updateSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Right Panel -->
 
@@ -107,6 +160,104 @@
 <script>
     $("#navbar").load("../../base/admin/navbar.html");
     $("#header").load("../../base/admin/base_right_header.html");
+</script>
+
+<script>
+    //保存修改和添加
+    function updateSave() {
+        var userId = $("#showDivuserId").val();
+        //修改
+        if(userId != null){
+            //保存数据
+            //获取值
+            var showDivusername = $("#showDivusername").val();
+            var plateCode= $("#showDivplateCode").val();
+            var parkingName = $("#showDivparkingName").val();
+            var CarportNum = $("#showDivCarportNum").val();
+            var orderTime = $("#showDivorderTime").val();
+            var orderStatus = $("#showDivorderStatus").val();
+            //发送请求
+            var url="/user/parking/updateParking";
+            $.post(url,{userId:userId,orderStatus:orderStatus},
+                function (data) {
+                    //回调方法
+                    if(data.status){
+                        //修改成功
+                        alert("修改成功");
+                        //刷新页面
+                        location.reload();
+                    }else {
+                        alert("修改失败")
+                    }
+                },"json"
+            );
+        }else{
+            //添加获取值
+            var username =   $("#showDivusername").val();
+            var parkingName =  $("#showDivparkingName").val();
+            var carportNum =  $("#showDivCarportNum").val();
+            var orderCarportTime =  $("#showDivorderTime").val();
+            var orderCarportStatus = $("#showDivorderStatus").val();
+            //发送请求
+            var url="/base/order/add";
+            $.post(url,{username:username,parkingName:parkingName,carportNum:carportNum,orderCarportTime:orderCarportTime,orderCarportStatus:orderCarportStatus},
+                function (data) {
+                    //回调方法
+                    if(data.status){
+                        //添加成功
+                        alert("添加成功");
+                        //刷新页面
+                        location.reload();
+                    }else {
+                        alert(data.msg)
+                    }
+                },"json"
+            );
+        }
+
+
+    }
+    // 打开弹窗
+    function showDiv( row , methodType )  {
+        $("#showDivusername").val("");
+        $("#showDivplateCode").val("");
+        $("#showDivparkingName").val("");
+        $("#showDivCarportNum").val("");
+        $("#showDivorderTime").val("");
+        $("#showDivorderStatus").val("");
+
+        $("#showDivusername").removeAttr("disabled");
+        $("#showDivplateCode").removeAttr("disabled");
+        $("#showDivparkingName").removeAttr("disabled");
+        $("#showDivCarportNum").removeAttr("disabled");
+        $("#showDivorderTime").removeAttr("disabled");
+        $("#showDivorderStatus").removeAttr("disabled");
+        if(methodType=="add"){
+            //添加
+            $("#exampleModalCenterTitle").text("添加预约");
+
+        }else {
+            //修改
+            $("#showDivusername").val(row.username);
+            $("#showDivplateCode").val(row.plateCode);
+            $("#showDivparkingName").val(row.parkingName);
+            $("#showDivCarportNum").val(row.carportNum);
+            $("#showDivorderTime").val(row.orderCarportTime);
+            $("#showDivorderStatus").val(row.orderCarportStatus);
+            //禁止修改除状态之外的数据
+            $("#showDivusername").attr({disabled:"true"});
+            $("#showDivplateCode").attr({disabled:"true"});
+            $("#showDivparkingName").attr({disabled:"true"});
+            $("#showDivCarportNum").attr({disabled:"true"});
+            $("#showDivorderTime").attr({disabled:"true"});
+            var status = row.orderCarportStatus;
+            if(status != 0){
+                $("#showDivorderStatus").attr({disabled:"true"});
+            }
+            $("#exampleModalCenterTitle").text("修改");
+        }
+        $("#updateOrAddDiv").show();
+    }
 </script>
 </body>
 

@@ -76,7 +76,8 @@
                         return "已违约";
                     }
                 }
-            },{
+            },
+            {
             "data":null,"render":function (data,type,row, meta) {
 
                     var methodType = "update";
