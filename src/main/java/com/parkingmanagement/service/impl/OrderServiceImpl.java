@@ -1,13 +1,12 @@
 package com.parkingmanagement.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.parkingmanagement.dao.*;
 import com.parkingmanagement.entity.*;
 import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.entity.vo.OrderVO;
 import com.parkingmanagement.service.OrderService;
-import com.parkingmanagement.utils.BaseResult;
-import com.parkingmanagement.utils.Constant;
-import com.parkingmanagement.utils.TimeUtils;
+import com.parkingmanagement.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.unit.DataUnit;
@@ -31,6 +30,10 @@ public class OrderServiceImpl implements OrderService {
     private CarportDao carportDao;
     @Autowired
     private ParkingLogDao parkingLogDao;
+    @Autowired
+    private PlateDao plateDao;
+    @Autowired
+    private DelayQueueManager delayQueueManager;
 
 
 
@@ -47,10 +50,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public BaseResult addOrder(OrderVO orderVO) throws ParseException {
-        BaseResult baseResult = new BaseResult();
+        BaseResult result = new BaseResult();
         OrderCarport orderCarport = VOToOrderCarport(orderVO);
+        //先要判断 用户是否已在预约车位中
+        OrderCarport dbOrderCarport = orderCarportDao.selectOrdering(orderCarport.getOrderCarportUserId());
+        if (dbOrderCarport != null) {
+            return result.setMsg("已有预约车位，无法再次预约");
+        }
+        //在判断 用户这个月内的违约次数是否超过三次
+        Integer breakCount = orderCarportDao.breakOrder(orderCarport.getOrderCarportUserId());
+        if (breakCount >= Constant.BRESK_ORDER_MAX) {
+            return result.setMsg("本月违约次数过多，无法再次预约");
+        }
         orderCarportDao.save(orderCarport);
-        return baseResult.setStatus(true).setMsg("添加成功");
+        Carport carport = new Carport();
+        carport.setCarportStatus(Constant.CARPORT_STATUS_ORDER);
+        carport.setCarportId(orderCarport.getOrderCarportCarportId());
+        carportDao.updateCarport(carport);
+        //开启延迟任务
+        TaskBase taskBase = new TaskBase(JSONObject.toJSONString(orderCarport));
+        DelayTask delayTask = new DelayTask(taskBase,5000);//这个时间可以自定义  是以毫秒为单位
+        delayQueueManager.put(delayTask);
+        return result.setStatus(true).setMsg("预约成功");
     }
 
     @Override
@@ -102,11 +123,16 @@ public class OrderServiceImpl implements OrderService {
         }else {
             order.setOrderCarportCarportId(carportList.get(0).getCarportId());
         }
+        HashMap<String,Object> plateQueryMap = new HashMap<>();
+        plateQueryMap.put("plateCode",orderVO.getPlateCode());
+        List<Plate> plates = plateDao.query(plateQueryMap);
+        order.setOrderPlateId(plates.get(0).getPlateId());
         return order;
     }
 
     private ParkingLog initParkingLog(OrderCarport orderCarport){
         ParkingLog parkingLog = new ParkingLog();
+        parkingLog.setParkingLogCarportId(orderCarport.getOrderCarportCarportId());
         parkingLog.setParkingLogUserId(orderCarport.getOrderCarportUserId());
         parkingLog.setParkingLogPlateId(orderCarport.getOrderPlateId());
         Carport carport = carportDao.getById(orderCarport.getOrderCarportCarportId());

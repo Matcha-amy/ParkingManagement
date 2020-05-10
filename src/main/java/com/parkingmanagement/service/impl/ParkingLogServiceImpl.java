@@ -130,7 +130,7 @@ public class ParkingLogServiceImpl implements ParkingLogService {
         Plate plate = plateDao.getById(parkingLog.getParkingLogPlateId());
         User user = userDao.getUserById(plate.getUserId());
         Carport carport = carportDao.getById(parkingLog.getParkingLogCarportId());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = simpleDateFormat.format(parkingLog.getParkingLogStartTime());
         if(parkingLog.getParkingLogEndTime() !=0){
             String endTime = simpleDateFormat.format(parkingLog.getParkingLogEndTime());

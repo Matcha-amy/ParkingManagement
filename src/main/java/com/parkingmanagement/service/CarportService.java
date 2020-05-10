@@ -15,5 +15,5 @@ public interface CarportService {
 
     BaseResult delCarport(Carport carport);
 
-    List<Carport> getCarportByParking(Integer parkingId);
+    List<Carport> getCarportByParking(String parkingName);
 }

@@ -79,8 +79,8 @@
                                 <thead>
                                 <tr>
                                     <th>停车场名</th>
-                                    <th>车牌号</th>
                                     <th>车位编号</th>
+                                    <th>车牌号</th>
                                     <th>预约时间</th>
                                     <th>预约状态</th>
                                     <th>操作</th>
@@ -119,15 +119,21 @@
                     </div>
                     <div class="form-group">
                         <label for="showDivplateCode">车牌号</label>
-                        <input type="text" class="form-control" id="showDivplateCode">
+                        <select class="form-control" id="showDivplateCode" name="plateCode">
+
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="showDivparkingName">停车场名</label>
-                        <input type="text" class="form-control" id="showDivparkingName">
+                        <select class="form-control" id="showDivParkingName" name="parkingName" onchange="parkingNameChange()">
+
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="showDivCarportNum">车位编号</label>
-                        <input class="form-control" type="text" id="showDivCarportNum">
+                        <select class="form-control" id="showDivCarportNum" name="carportNum">
+
+                        </select>
                     </div>
                     <div>
                         <label for="showDivorderTime">预约时间</label>
@@ -141,7 +147,7 @@
                             <option value="2">预约失败</option>
                         </select>
                     </div>
-                    <input type="text" style="display: none" id="showDivuserId">
+                    <input type="text" style="display: none" id="showDivOrderCarportId">
                 </form>
             </div>
             <div class="modal-footer">
@@ -180,20 +186,21 @@
 <script>
     //保存修改和添加
     function updateSave() {
-        var userId = $("#showDivuserId").val();
+        var orderCarportId = $("#showDivOrderCarportId").val();
+
         //修改
-        if(userId != null){
+        if(orderCarportId != null && orderCarportId != ""){
             //保存数据
             //获取值
             var showDivusername = $("#showDivusername").val();
             var plateCode= $("#showDivplateCode").val();
-            var parkingName = $("#showDivparkingName").val();
+            var parkingName = $("#showDivParkingName").val();
             var CarportNum = $("#showDivCarportNum").val();
             var orderTime = $("#showDivorderTime").val();
             var orderStatus = $("#showDivorderStatus").val();
             //发送请求
-            var url="/user/parking/updateParking";
-            $.post(url,{userId:userId,orderStatus:orderStatus},
+            var url="/base/order/update";
+            $.post(url,{username:showDivusername,plateCode:plateCode,parkingName:parkingName,carportNum:CarportNum,orderCarportTime:orderTime,orderCarportId:orderCarportId,orderCarportStatus:orderStatus},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -209,13 +216,14 @@
         }else{
             //添加获取值
             var username =   $("#showDivusername").val();
-            var parkingName =  $("#showDivparkingName").val();
+            var parkingName =  $("#showDivParkingName").val();
+            var plateCode =  $("#showDivplateCode").val();
             var carportNum =  $("#showDivCarportNum").val();
             var orderCarportTime =  $("#showDivorderTime").val();
             var orderCarportStatus = $("#showDivorderStatus").val();
             //发送请求
             var url="/base/order/add";
-            $.post(url,{username:username,parkingName:parkingName,carportNum:carportNum,orderCarportTime:orderCarportTime,orderCarportStatus:orderCarportStatus},
+            $.post(url,{username:username,parkingName:parkingName,plateCode:plateCode,carportNum:carportNum,orderCarportTime:orderCarportTime,orderCarportStatus:orderCarportStatus},
                 function (data) {
                     //回调方法
                     if(data.status){
@@ -236,33 +244,58 @@
     function showDiv( row , methodType )  {
         $("#showDivusername").val("");
         $("#showDivplateCode").val("");
-        $("#showDivparkingName").val("");
-        $("#showDivCarportNum").val("");
+        $("#showDivParkingName").val(0);
+        // $("#showDivCarportNum").val("");
+        $("#showDivCarportNum").html("<option value='0'>请先选择停车场</option>");
         $("#showDivorderTime").val("");
         $("#showDivorderStatus").val("");
-
+        $("#showDivOrderCarportId").val("");
         $("#showDivusername").removeAttr("disabled");
         $("#showDivplateCode").removeAttr("disabled");
-        $("#showDivparkingName").removeAttr("disabled");
+        $("#showDivParkingName").removeAttr("disabled");
         $("#showDivCarportNum").removeAttr("disabled");
         $("#showDivorderTime").removeAttr("disabled");
         $("#showDivorderStatus").removeAttr("disabled");
         if(methodType=="add"){
             //添加
+            //获取用户姓名
+            $.ajax({
+                url:"/base/getName",
+                type:"POST",
+                async:false,
+                success: function(data){
+                    $("#showDivusername").val(data);
+                }
+            });
+            $("#showDivusername").attr({disabled:"true"});
+            //获取时间
+            $.ajax({
+                url:"/base/getTime",
+                type:"POST",
+                async:false,
+                success: function(data){
+                    $("#showDivorderTime").val(data);
+                }
+            });
+            $("#showDivorderTime").attr({disabled:"true"});
+            $("#showDivorderStatus").attr({disabled:"true"});
             $("#exampleModalCenterTitle").text("添加预约");
-
         }else {
             //修改
             $("#showDivusername").val(row.username);
             $("#showDivplateCode").val(row.plateCode);
-            $("#showDivparkingName").val(row.parkingName);
-            $("#showDivCarportNum").val(row.carportNum);
+            $("#showDivParkingName").val(row.parkingName);
+            //改为html
+            // $("#showDivCarportNum").val(row.carportNum);
+            $("#showDivCarportNum").html("<option value='"+row.carportNum+"'>"+row.carportNum+"</option>");
             $("#showDivorderTime").val(row.orderCarportTime);
             $("#showDivorderStatus").val(row.orderCarportStatus);
+            //添加预约id
+            $("#showDivOrderCarportId").val(row.orderCarportId);
             //禁止修改除状态之外的数据
             $("#showDivusername").attr({disabled:"true"});
+            $("#showDivParkingName").attr({disabled:"true"});
             $("#showDivplateCode").attr({disabled:"true"});
-            $("#showDivparkingName").attr({disabled:"true"});
             $("#showDivCarportNum").attr({disabled:"true"});
             $("#showDivorderTime").attr({disabled:"true"});
             var status = row.orderCarportStatus;
@@ -272,6 +305,48 @@
             $("#exampleModalCenterTitle").text("修改");
         }
         $("#updateOrAddDiv").show();
+    }
+</script>
+<script>
+    $(function () {
+        //获取该用户的车牌号
+        $.get("/user/plate/getUserPlate",function (data) {
+            var html = "<option value='0'>请选择</option>" ;
+            for (var i = 0; i < data.length; i++) {
+                html += "   <option value='"+data[i].plateCode+"'>"+data[i].plateCode+"</option>"
+            }
+            $("#showDivplateCode").html(html);
+        },"json")
+        //获取所有的停车场
+        $.get("/admin/parking/list",function (data) {
+            var html = "<option value='0'>请选择</option>" ;
+            for (var i = 0; i < data.length; i++) {
+                html += "   <option value='"+data[i].parkingName+"'>"+data[i].parkingName+"</option>"
+            }
+            $("#showDivParkingName").html(html);
+        },"json")
+
+
+
+    });
+
+
+    function parkingNameChange(){
+       var parkingName = $("#showDivParkingName").val();
+        var html ="";
+        if(parkingName == 0){
+            html +="<option value='0'>请先选择停车场</option>"
+            $("#showDivCarportNum").html(html);
+        }else {
+            $.get("/admin/carport/getCarportByParking",{parkingName:parkingName},function (data) {
+                console.log(data);
+                 html += "<option value='0'>请选择</option>" ;
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value='"+data[i].carportNum+"'>"+data[i].carportNum+"</option>"
+                }
+                $("#showDivCarportNum").html(html);
+            },"json")
+        }
     }
 </script>
 </body>

@@ -6,6 +6,7 @@ import com.parkingmanagement.entity.Plate;
 import com.parkingmanagement.entity.system.User;
 import com.parkingmanagement.service.PlateService;
 import com.parkingmanagement.utils.BaseResult;
+import com.parkingmanagement.utils.Constant;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,6 +78,7 @@ public class PlateServiceImpl implements PlateService {
         User user = userDao.getUserByUsername(userName);
         HashMap<String,Object> queryMap  = new HashMap<>();
         queryMap.put("userId",user.getUserId());
+        queryMap.put("plateStatus",0);
         List<Plate> plateList = plateDao.query(queryMap);
         return plateList;
     }

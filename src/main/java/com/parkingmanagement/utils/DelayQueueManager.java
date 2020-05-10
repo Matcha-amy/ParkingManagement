@@ -1,7 +1,9 @@
 package com.parkingmanagement.utils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.parkingmanagement.dao.CarportDao;
 import com.parkingmanagement.dao.OrderCarportDao;
+import com.parkingmanagement.entity.Carport;
 import com.parkingmanagement.entity.OrderCarport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,6 +18,8 @@ public class DelayQueueManager implements CommandLineRunner {
 
     @Autowired
     private OrderCarportDao orderCarportDao;
+    @Autowired
+    private CarportDao carportDao;
 
     private DelayQueue<DelayTask> delayQueue = new DelayQueue<>();
 
@@ -77,6 +81,11 @@ public class DelayQueueManager implements CommandLineRunner {
             //用户违约
             dbOrderCarport.setOrderCarportStatus(Constant.ORDER_STATUS_FAILED);
             orderCarportDao.update(dbOrderCarport);
+//            //同时放开 车位占用
+//            Carport  carport = new Carport();
+//            carport.setCarportId( dbOrderCarport.getOrderCarportCarportId());
+//            carport.setCarportStatus(Constant.CARPORT_STATUS_FREE);
+//            carportDao.updateCarport(carport);
         }
 
     }

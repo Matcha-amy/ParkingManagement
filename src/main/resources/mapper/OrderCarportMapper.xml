@@ -41,8 +41,8 @@
 	</select>
 
 	<insert id="save" parameterType="com.parkingmanagement.entity.OrderCarport"  useGeneratedKeys="true" keyProperty = "orderCarport_id">
-		insert into orderCarport(orderCarport_user_id,orderCarport_carport_id,orderCarport_time,orderCarport_status)
-		values (#{orderCarportUserId},#{orderCarportCarportId},#{orderCarportTime},#{orderCarportStatus})
+		insert into orderCarport(orderCarport_user_id,orderCarport_carport_id,orderCarport_time,orderCarport_status,orderCarport_plate_id)
+		values (#{orderCarportUserId},#{orderCarportCarportId},#{orderCarportTime},#{orderCarportStatus},#{orderPlateId})
 	</insert>
 
 	<select id="findByTime" parameterType="Long" resultMap="BaseResultMap">

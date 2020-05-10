@@ -3,7 +3,9 @@ package com.parkingmanagement.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.parkingmanagement.dao.CarportDao;
+import com.parkingmanagement.dao.ParkingDao;
 import com.parkingmanagement.entity.Carport;
+import com.parkingmanagement.entity.Parking;
 import com.parkingmanagement.entity.vo.ListQuery;
 import com.parkingmanagement.service.CarportService;
 import com.parkingmanagement.utils.BaseResult;
@@ -19,6 +21,8 @@ public class CarportServiceImpl implements CarportService {
 
     @Autowired
     private CarportDao carportDao;
+    @Autowired
+    private ParkingDao parkingDao;
 
     @Override
     public List<Carport> getList(ListQuery query) {
@@ -71,10 +75,11 @@ public class CarportServiceImpl implements CarportService {
     }
 
     @Override
-    public List<Carport> getCarportByParking(Integer parkingId) {
+    public List<Carport> getCarportByParking(String parkingName) {
+        Parking parking = parkingDao.getByName(parkingName);
         HashMap<String,Object> queryMap = new HashMap<>();
         queryMap.put("carportStatus",Constant.CARPORT_STATUS_FREE);
-        queryMap.put("parkingId",parkingId);
+        queryMap.put("parkingId",parking.getParkingId());
         List<Carport> carportList = carportDao.query(queryMap);
         return carportList;
     }

@@ -44,20 +44,18 @@
             }
         },
         columns: [
-            {
-                'data': 'username',
-                sortable: true
-            },
-            {
-                'data': 'plateCode',
-                sortable: true
-            },
+
             {
                 'data': 'parkingName',
                 sortable: true
             },
+
             {
                 'data': 'carportNum',
+                sortable: true
+            },
+            {
+                'data': 'plateCode',
                 sortable: true
             },
             {

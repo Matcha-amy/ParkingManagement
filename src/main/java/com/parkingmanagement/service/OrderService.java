@@ -1,5 +1,6 @@
 package com.parkingmanagement.service;
 
+import com.parkingmanagement.entity.OrderCarport;
 import com.parkingmanagement.entity.vo.OrderVO;
 import com.parkingmanagement.utils.BaseResult;
 
