@@ -51,13 +51,13 @@
 			<if test="parkingName != null and parkingName != ''">
 				parking_name = #{parkingName},
 			</if>
-			<if test="parkingStatus != null and parkingStatus != ''">
+			<if test="parkingStatus != null ">
 				parking_status = #{parkingStatus},
 			</if>
 			<if test="parkingCarportSize != null and parkingCarportSize != ''">
 				parking_carport_size = #{parkingCarportSize},
 			</if>
-			<if test="parkingFreeCarport != null and parkingFreeCarport != ''">
+			<if test="parkingFreeCarport != null ">
 				parking_free_carport = #{parkingFreeCarport},
 			</if>
 			<if test="parkingPrice != null and parkingPrice != ''">

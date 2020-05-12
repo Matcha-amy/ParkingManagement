@@ -14,7 +14,7 @@
 		carport_id,carport_num,carport_status,carport_pos,parking_id
 	</sql>
 
-	<select id="query" resultMap="BaseResultMap" parameterType="Map">
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
 		select <include refid="base_select"/>
 		from carport
 		<where>
@@ -22,7 +22,7 @@
 				<if test="carportNum != null and carportNum != ''">
 					carport_num = #{carportNum} and
 				</if>
-				<if test="carportStatus != null and carportStatus != ''">
+				<if test="carportStatus != null ">
 					carport_status = #{carportStatus} and
 				</if>
 				<if test="carportPos != null and carportPos != ''">
@@ -57,7 +57,7 @@
 			<if test="carportNum != null and carportNum != ''">
 				carport_num = #{carportNum},
 			</if>
-			<if test="carportStatus != null and carportStatus != ''">
+			<if test="carportStatus != null ">
 				carport_status = #{carportStatus},
 			</if>
 			<if test="carportPos != null and carportPos != ''">

@@ -31,7 +31,6 @@
 		select 	<include refid="base_select"/>
 		FROM plate
 		where  plate_id = #{plateId}
-		and plate_status = 0
 	</select>
 
 	<update id="updatePlate" parameterType="com.parkingmanagement.entity.Plate" >
@@ -61,7 +60,7 @@
 				<if test="plateCode != null and plateCode != ''">
 					plate_code = #{plateCode} and
 				</if>
-				<if test="plateStatus != null and plateStatus != ''">
+				<if test="plateStatus != null ">
 					plate_status = #{plateStatus} and
 				</if>
 			</trim>

@@ -63,7 +63,7 @@
 			<if test="orderCarportTime != null and orderCarportTime != ''">
 				orderCarport_time = #{orderCarportTime},
 			</if>
-			<if test="orderCarportStatus != null and orderCarportStatus != ''">
+			<if test="orderCarportStatus != null">
 				orderCarport_status = #{orderCarportStatus},
 			</if>
 		</trim>

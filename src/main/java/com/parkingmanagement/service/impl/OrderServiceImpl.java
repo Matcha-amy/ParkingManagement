@@ -80,15 +80,16 @@ public class OrderServiceImpl implements OrderService {
         //完成或取消
         //更改预约表 将预约状态改为完成
         OrderCarport orderCarport = VOToOrderCarport(orderVO);
-        orderCarportDao.update(orderCarport);
         if(orderCarport.getOrderCarportStatus() == Constant.ORDER_STATUS_SUCCESS){
+            orderCarport.setOrderCarportStatus(Constant.ORDER_STATUS_SUCCESS);
+            orderCarportDao.update(orderCarport);
             //预约完成
             //更改停车记录表  生成停车记录
             ParkingLog parkingLog = initParkingLog(orderCarport);
             parkingLogDao.save(parkingLog);
             //同时更改车位表的该车位状态
             Carport carport = carportDao.getById(orderCarport.getOrderCarportCarportId());
-            carport.setCarportStatus(Constant.CARPORT_STATUS_ORDER);
+            carport.setCarportStatus(Constant.CARPORT_STATUS_USEING);
             carportDao.updateCarport(carport);
         }
         return result.setStatus(true);
@@ -108,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
 
     public OrderCarport VOToOrderCarport(OrderVO orderVO) throws ParseException {
         OrderCarport order = new OrderCarport();
+        order.setOrderCarportId(orderVO.getOrderCarportId());
         order.setOrderCarportStatus(orderVO.getOrderCarportStatus());
         order.setOrderCarportTime(TimeUtils.strToTime(  orderVO.getOrderCarportTime()));
         order.setOrderCarportUserId( userDao.getUserByUsername(orderVO.getUsername()).getUserId());

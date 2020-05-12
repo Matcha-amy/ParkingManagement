@@ -2,6 +2,7 @@ package com.parkingmanagement.dao;
 
 import com.parkingmanagement.entity.Carport;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface CarportDao {
 
-    List<Carport> query(HashMap<String, Object> query);
+    List<Carport> query( HashMap<String, Object> query);
 
     void save(Carport carport);
 
